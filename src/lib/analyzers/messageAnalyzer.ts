@@ -178,6 +178,7 @@ export const analyzeMessages = (messages: WhatsAppMessage[]): ChatAnalysis => {
   };
   
   return {
+    messages, // Bu satır eklendi - eksik olan property
     participants,
     totalMessages: messages.length,
     dateRange: {
