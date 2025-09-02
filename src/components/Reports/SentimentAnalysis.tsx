@@ -11,6 +11,14 @@ interface SentimentAnalysisProps {
   analysis: ChatAnalysis;
 }
 
+// Define the chart data type
+interface ChartDataItem {
+  date: string;
+  value: number;
+  sentiment: 'positive' | 'negative' | 'neutral';
+  displayDate: string;
+}
+
 const SentimentAnalysis = ({ analysis }: SentimentAnalysisProps) => {
   const [timeSpan, setTimeSpan] = useState<'all' | 'month' | 'week'>('all');
   
@@ -41,7 +49,7 @@ const SentimentAnalysis = ({ analysis }: SentimentAnalysisProps) => {
   const sentimentColor = CHART_COLORS.sentiment[overallSentiment];
   
   // Prepare chart data
-  let chartData = Object.entries(sentimentAnalysis.sentimentByDate).map(([date, data]) => ({
+  let chartData: ChartDataItem[] = Object.entries(sentimentAnalysis.sentimentByDate).map(([date, data]) => ({
     date,
     value: data.score,
     sentiment: data.sentiment
