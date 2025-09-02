@@ -48,11 +48,12 @@ const SentimentAnalysis = ({ analysis }: SentimentAnalysisProps) => {
   // Get sentiment color
   const sentimentColor = CHART_COLORS.sentiment[overallSentiment];
   
-  // Prepare chart data
+  // Prepare chart data with displayDate included
   let chartData: ChartDataItem[] = Object.entries(sentimentAnalysis.sentimentByDate).map(([date, data]) => ({
     date,
     value: data.score,
-    sentiment: data.sentiment
+    sentiment: data.sentiment,
+    displayDate: format(new Date(date), 'd MMM', { locale: tr }) // displayDate eklendi
   })).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   
   // Filter data based on selected time span
@@ -68,12 +69,6 @@ const SentimentAnalysis = ({ analysis }: SentimentAnalysisProps) => {
     
     chartData = chartData.filter(item => new Date(item.date) >= cutoffDate);
   }
-  
-  // Format dates for display
-  chartData = chartData.map(item => ({
-    ...item,
-    displayDate: format(new Date(item.date), 'd MMM', { locale: tr })
-  }));
   
   // Prepare emotional categories data for chart
   const emotionalCategoriesData = Object.entries(sentimentAnalysis.emotionalCategories)
@@ -232,13 +227,7 @@ const SentimentAnalysis = ({ analysis }: SentimentAnalysisProps) => {
                   dataKey="value" 
                   stroke="#4f46e5" 
                   strokeWidth={2}
-                  dot={{ 
-                    r: 4,
-                    fill: (entry) => {
-                      const sentiment = entry.sentiment;
-                      return CHART_COLORS.sentiment[sentiment];
-                    }
-                  }}
+                  dot={{ r: 4, fill: '#4f46e5' }}
                 />
               </LineChart>
             </ResponsiveContainer>
