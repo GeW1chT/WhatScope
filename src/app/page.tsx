@@ -1,16 +1,28 @@
 import Image from "next/image";
 import FileUpload from "@/components/FileUpload";
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import SiteFooter from "@/components/ui/SiteFooter";
+import Link from "next/link";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white dark:from-gray-900 dark:to-gray-800">
-      <ThemeToggle />
       <div className="container mx-auto px-4 py-8 sm:py-16 max-w-6xl">
         <header className="text-center mb-8 sm:mb-16">
-          <h1 className="text-4xl sm:text-5xl font-bold text-indigo-600 dark:text-indigo-400 mb-3 sm:mb-4">
-            WhatsScope
-          </h1>
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-4xl sm:text-5xl font-bold text-indigo-600 dark:text-indigo-400">
+              WhatsScope
+            </h1>
+            <div className="flex items-center space-x-4">
+              <Link 
+                href="/privacy-policy" 
+                className="text-sm text-indigo-600 dark:text-indigo-400 hover:underline"
+              >
+                Gizlilik Politikası
+              </Link>
+              <ThemeToggle />
+            </div>
+          </div>
           <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             WhatsApp sohbetlerinizi derinlemesine analiz eden, eğlenceli ve paylaşılabilir istatistikler sunan platform.
           </p>
@@ -97,9 +109,7 @@ export default function Home() {
           </div>
         </div>
         
-        <footer className="mt-20 text-center text-gray-500 dark:text-gray-400 text-sm">
-          <p>© 2025 WhatsScope - Tüm sohbet verileriniz gizli kalır ve sunucularımıza yüklenmez.</p>
-        </footer>
+        <SiteFooter />
       </div>
     </div>
   );

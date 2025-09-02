@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAnalysisContext } from '@/contexts/AnalysisContext';
 import AnalysisResults from '@/components/AnalysisResults';
 import ThemeToggle from '@/components/ui/ThemeToggle';
+import SiteFooter from '@/components/ui/SiteFooter';
 
 const ResultsPage = () => {
   const router = useRouter();
@@ -72,6 +73,8 @@ const ResultsPage = () => {
         </div>
         
         {analysis && <AnalysisResults analysis={analysis} />}
+        
+        <SiteFooter />
       </div>
     </div>
   );

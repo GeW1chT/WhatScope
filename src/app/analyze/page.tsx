@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAnalysisContext } from '@/contexts/AnalysisContext';
 import ThemeToggle from '@/components/ui/ThemeToggle';
+import SiteFooter from '@/components/ui/SiteFooter';
 
 const AnalyzePage = () => {
   const router = useRouter();
@@ -118,6 +119,8 @@ const AnalyzePage = () => {
             </div>
           </div>
         </div>
+        
+        <SiteFooter />
       </div>
     </div>
   );

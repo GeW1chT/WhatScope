@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import useFileUpload from '@/hooks/useFileUpload';
 import useAnalysis from '@/hooks/useAnalysis';
 import { useAnalysisContext } from '@/contexts/AnalysisContext';
+import Link from 'next/link';
 
 const FileUpload = () => {
   const router = useRouter();
@@ -249,6 +250,17 @@ const FileUpload = () => {
           <p>Büyük sohbetler için WhatsApp dışa aktarımını birden fazla parçaya bölebilirsiniz.</p>
         </div>
       </motion.div>
+      
+      <div className="mt-4 text-center text-xs text-gray-500 dark:text-gray-400">
+        <Link 
+          href="/privacy-policy" 
+          className="text-indigo-600 dark:text-indigo-400 hover:underline"
+        >
+          Gizlilik Politikası
+        </Link>
+        <span className="mx-2">•</span>
+        <span>Tüm verileriniz gizlidir ve sunucularımıza yüklenmez</span>
+      </div>
     </motion.div>
   );
 };
