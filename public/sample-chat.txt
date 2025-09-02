@@ -1,0 +1,86 @@
+[25.01.24, 08:30:22] Ayşe: Günaydın 🌞
+[25.01.24, 08:31:45] Ahmet: Günaydın, nasılsın bugün?
+[25.01.24, 08:32:12] Ayşe: İyiyim teşekkürler, sen?
+[25.01.24, 08:33:01] Ahmet: Ben de iyiyim. Bugün işe erken gitmem gerekiyor
+[25.01.24, 08:33:33] Ayşe: Tamam, akşam görüşürüz o zaman 👍
+[25.01.24, 08:33:45] Ahmet: Görüşürüz 😊
+
+[25.01.24, 12:15:30] Ayşe: Öğle yemeğinde ne yedin?
+[25.01.24, 12:30:01] Ahmet: Salata ve makarna 🍝 Sen?
+[25.01.24, 12:31:22] Ayşe: Ben de sandviç yedim 🥪
+[25.01.24, 12:32:10] Ahmet: Afiyet olsun 😊
+
+[25.01.24, 18:22:05] Ahmet: Eve döndüm, yorucu bir gündü
+[25.01.24, 18:25:33] Ayşe: Hoş geldin! Ben de birazdan çıkacağım
+[25.01.24, 18:26:12] Ahmet: Dikkatli gel ❤️
+[25.01.24, 18:26:45] Ayşe: Teşekkürler ❤️
+
+[26.01.24, 09:15:22] Ayşe: Günaydın! 🌞 Bugün hava çok güzel
+[26.01.24, 09:16:45] Ahmet: Günaydın! Evet, çok güzel bir gün 😎
+[26.01.24, 09:17:30] Ayşe: Akşam dışarıda yemek yiyelim mi?
+[26.01.24, 09:18:12] Ahmet: Olur, iyi fikir 👍
+[26.01.24, 09:18:45] Ayşe: Harika! Saat 7'de buluşalım
+
+[26.01.24, 19:01:22] Ahmet: Geldim, neredesin?
+[26.01.24, 19:02:01] Ayşe: 5 dakika içinde oradayım 🏃‍♀️
+[26.01.24, 19:08:33] Ayşe: Geldim, seni görüyorum 👋
+[26.01.24, 19:08:45] Ahmet: Ben de seni gördüm 👋
+
+[26.01.24, 22:30:12] Ahmet: Harika bir akşamdı, teşekkürler 😊
+[26.01.24, 22:31:33] Ayşe: Ben de çok eğlendim 🥰 Tekrar yapalım
+[26.01.24, 22:32:15] Ahmet: Tabii ki! İyi geceler ✨
+[26.01.24, 22:32:45] Ayşe: İyi geceler 😴
+
+[27.01.24, 10:45:22] Ahmet: Günaydın! Ne yapıyorsun?
+[27.01.24, 10:47:01] Ayşe: Günaydın! Kahvaltı hazırlıyorum 🍳
+[27.01.24, 10:47:45] Ahmet: Afiyet olsun! Ben birazdan alışverişe çıkacağım
+[27.01.24, 10:48:33] Ayşe: İhtiyacın olan bir şey var mı?
+[27.01.24, 10:49:12] Ahmet: Sağ ol, yok şimdilik 🙏
+
+[27.01.24, 16:22:05] Ayşe: Film izliyorum, çok güzel bir film
+[27.01.24, 16:23:33] Ahmet: Ne izliyorsun?
+[27.01.24, 16:24:12] Ayşe: "Yeşil Yol" izliyorum, izlemeni tavsiye ederim
+[27.01.24, 16:25:45] Ahmet: Harika bir film! Ben de çok severim
+
+[28.01.24, 09:30:22] Ahmet: Günaydın ☀️
+[28.01.24, 09:35:45] Ayşe: Günaydın! Bugün hava nasıl?
+[28.01.24, 09:36:12] Ahmet: Biraz yağmurlu ☔
+[28.01.24, 09:37:01] Ayşe: O zaman şemsiyeni al 😊
+[28.01.24, 09:37:33] Ahmet: Aldım, teşekkürler 👍
+
+[28.01.24, 14:15:30] Ayşe: <Media omitted>
+[28.01.24, 14:16:01] Ahmet: Çok güzel bir fotoğraf! Nerede çektin?
+[28.01.24, 14:16:22] Ayşe: Sahilde çektim, az önce
+[28.01.24, 14:17:10] Ahmet: Harika görünüyor! Haftasonu ben de gideyim
+
+[28.01.24, 20:22:05] Ahmet: <Media omitted>
+[28.01.24, 20:23:33] Ayşe: Akşam yemeği mi?
+[28.01.24, 20:24:12] Ahmet: Evet, yeni bir tarif denedim
+[28.01.24, 20:24:45] Ayşe: Çok lezzetli görünüyor 😍 Tarifi paylaşır mısın?
+[28.01.24, 20:25:12] Ahmet: Tabii ki, yarın yazarım detaylı 👨‍🍳
+
+[29.01.24, 09:15:22] Ayşe: Günaydın! İyi bir gün olsun 🌈
+[29.01.24, 09:16:45] Ahmet: Sana da günaydın! Teşekkürler 😊
+[29.01.24, 09:17:30] Ayşe: Bugün toplantın var mıydı?
+[29.01.24, 09:18:12] Ahmet: Evet, 11'de başlıyor
+[29.01.24, 09:18:45] Ayşe: Kolay gelsin o zaman
+
+[29.01.24, 15:01:22] Ahmet: Toplantı bitti sonunda 😮‍💨
+[29.01.24, 15:02:01] Ayşe: Nasıl geçti?
+[29.01.24, 15:02:33] Ahmet: İyi geçti ama çok uzundu
+[29.01.24, 15:03:45] Ayşe: Anlıyorum. Bu akşam dinlenirsin 😊
+
+[30.01.24, 18:30:12] Ahmet: Merhaba! Nasılsın?
+[30.01.24, 18:35:33] Ayşe: İyiyim, sen nasılsın?
+[30.01.24, 18:36:15] Ahmet: Ben de iyiyim. Hafta sonu için bir planın var mı?
+[30.01.24, 18:38:45] Ayşe: Henüz yok, sen?
+[30.01.24, 18:39:22] Ahmet: Belki sinemaya gidebiliriz?
+[30.01.24, 18:40:01] Ayşe: Olabilir! Hangi film?
+[30.01.24, 18:41:15] Ahmet: Yeni çıkan bilim kurgu filmi var, ona bakalım mı?
+[30.01.24, 18:42:33] Ayşe: Tamam, harika fikir! 😄
+
+[31.01.24, 09:45:22] Ayşe: Günaydın 🌞 İyi uyudun mu?
+[31.01.24, 09:50:01] Ahmet: Günaydın! Evet, sen?
+[31.01.24, 09:51:45] Ayşe: Ben biraz geç uyudum ama iyiyim 😊
+[31.01.24, 09:52:33] Ahmet: Bugün hava güzel, öğle yemeğini dışarıda yiyelim mi?
+[31.01.24, 09:53:12] Ayşe: Olur, çok iyi olur! 👍
