@@ -10,9 +10,18 @@ export default function Home() {
       <div className="container mx-auto px-4 py-8 sm:py-16 max-w-6xl">
         <header className="text-center mb-8 sm:mb-16">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-4xl sm:text-5xl font-bold text-indigo-600 dark:text-indigo-400">
-              WhatsScope
-            </h1>
+            <div className="flex items-center">
+              <Image 
+                src="/logo.png" 
+                alt="WhatsScope Logo" 
+                width={60} 
+                height={60} 
+                className="mr-3"
+              />
+              <h1 className="text-4xl sm:text-5xl font-bold text-indigo-600 dark:text-indigo-400">
+                WhatsScope
+              </h1>
+            </div>
             <div className="flex items-center space-x-4">
               <Link 
                 href="/privacy-policy" 

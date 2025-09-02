@@ -6,6 +6,7 @@ import { useAnalysisContext } from '@/contexts/AnalysisContext';
 import AnalysisResults from '@/components/AnalysisResults';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import SiteFooter from '@/components/ui/SiteFooter';
+import Image from 'next/image';
 
 const ResultsPage = () => {
   const router = useRouter();
@@ -52,9 +53,18 @@ const ResultsPage = () => {
       <ThemeToggle />
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <header className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">
-            WhatsScope Analiz Sonuçları
-          </h1>
+          <div className="flex items-center justify-center mb-3">
+            <Image 
+              src="/logo.png" 
+              alt="WhatsScope Logo" 
+              width={40} 
+              height={40} 
+              className="mr-2"
+            />
+            <h1 className="text-3xl font-bold text-indigo-600 dark:text-indigo-400">
+              WhatsScope Analiz Sonuçları
+            </h1>
+          </div>
           <p className="text-lg text-gray-600 dark:text-gray-300">
             {analysis?.participants.join(' ve ')} arasındaki {analysis?.totalMessages} mesaj analiz edildi.
           </p>

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAnalysisContext } from '@/contexts/AnalysisContext';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import SiteFooter from '@/components/ui/SiteFooter';
+import Image from 'next/image';
 
 const AnalyzePage = () => {
   const router = useRouter();
@@ -65,9 +66,18 @@ const AnalyzePage = () => {
       <div className="container mx-auto px-4 py-16 max-w-6xl">
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 max-w-2xl mx-auto">
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6">
-              Sohbetiniz Analiz Ediliyor
-            </h1>
+            <div className="flex items-center justify-center mb-4">
+              <Image 
+                src="/logo.png" 
+                alt="WhatsScope Logo" 
+                width={50} 
+                height={50} 
+                className="mr-2"
+              />
+              <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
+                Sohbetiniz Analiz Ediliyor
+              </h1>
+            </div>
             
             <div className="relative pt-1 mb-8">
               <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-indigo-100 dark:bg-indigo-900">

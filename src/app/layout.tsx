@@ -31,12 +31,26 @@ export const metadata: Metadata = {
     siteName: 'WhatsScope',
     locale: 'tr_TR',
     type: 'website',
+    images: [
+      {
+        url: '/logo.png',
+        width: 400,
+        height: 400,
+        alt: 'WhatsScope Logo',
+      }
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'WhatsScope - WhatsApp Sohbet Analizi',
     description: 'WhatsApp sohbetlerinizi analiz edin.',
+    images: ['/logo.png'],
   },
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/logo.png',
+    apple: '/logo.png',
+  }
 };
 
 export default function RootLayout({
@@ -47,6 +61,8 @@ export default function RootLayout({
   return (
     <html lang="tr" suppressHydrationWarning>
       <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/logo.png" />
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
           strategy="afterInteractive"
