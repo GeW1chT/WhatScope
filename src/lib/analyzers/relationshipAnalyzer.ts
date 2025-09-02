@@ -170,15 +170,21 @@ export const analyzeRelationship = (messages: WhatsAppMessage[], analysis: ChatA
     
     relationshipAnalysis.talkativenessAnalysis.averageMessageLength[participant] = 0;
     
-    relationshipAnalysis.funnyStats.excuseAnalysis[participant] = {};
+    relationshipAnalysis.funnyStats.excuseAnalysis[participant] = {
+      'trafikte': 0,
+      'toplantıda': 0,
+      'uyuyordum': 0,
+      'telefon': 0,
+      'dışarıdaydım': 0
+    };
     relationshipAnalysis.funnyStats.foodObsession[participant] = 0;
     relationshipAnalysis.funnyStats.photoShareCount[participant] = 0;
     relationshipAnalysis.funnyStats.emojiPersonality[participant] = '';
     
-    // Initialize excuse types
-    Object.keys(excuseWords).forEach((excuseType: string) => {
-      relationshipAnalysis.funnyStats.excuseAnalysis[participant][excuseType as ExcuseType] = 0;
-    });
+    // Initialize excuse types - No longer needed as we're pre-initializing all the keys
+    // Object.keys(excuseWords).forEach((excuseType: string) => {
+    //   relationshipAnalysis.funnyStats.excuseAnalysis[participant][excuseType as ExcuseType] = 0;
+    // });
   });
 
   // Process messages for relationship analysis
