@@ -14,7 +14,9 @@ const funnyWords = ['haha', 'lol', 'ahaha', 'sjsj', 'komik', 'espri', 'gülmekte
 const foodWords = ['yemek', 'acıktım', 'kahvaltı', 'öğle yemeği', 'akşam yemeği', 'pizza', 'hamburger', 'yedim', 'yiyelim', 'restoran', 'cafe', 'lezzetli', 'dürüm', 'döner', 'lahmacun'];
 
 // Define excuse phrases
-const excuseWords = {
+type ExcuseType = 'trafikte' | 'toplantıda' | 'uyuyordum' | 'telefon' | 'dışarıdaydım';
+
+const excuseWords: Record<ExcuseType, string[]> = {
   'trafikte': ['trafik', 'trafikte', 'yoldayım', 'araçtayım', 'otobüsteyim'],
   'toplantıda': ['toplantı', 'toplantıdayım', 'işte', 'meşgulüm', 'işteyim', 'çalışıyorum'],
   'uyuyordum': ['uyuyordum', 'uyumuşum', 'uyku', 'uykudaydım', 'geç uyandım', 'alarm'],
@@ -58,8 +60,8 @@ export interface RelationshipAnalysis {
     };
   };
   funnyStats: {
-    excuseAnalysis: Record<string, Record<string, number>>;
-    favoriteExcuse: Record<string, string>;
+    excuseAnalysis: Record<string, Record<ExcuseType, number>>;
+    favoriteExcuse: Record<string, ExcuseType | ''>;
     foodObsession: Record<string, number>;
     foodLover: string;
     selfieTaker: string;
@@ -174,8 +176,8 @@ export const analyzeRelationship = (messages: WhatsAppMessage[], analysis: ChatA
     relationshipAnalysis.funnyStats.emojiPersonality[participant] = '';
     
     // Initialize excuse types
-    Object.keys(excuseWords).forEach(excuseType => {
-      relationshipAnalysis.funnyStats.excuseAnalysis[participant][excuseType] = 0;
+    Object.keys(excuseWords).forEach((excuseType: string) => {
+      relationshipAnalysis.funnyStats.excuseAnalysis[participant][excuseType as ExcuseType] = 0;
     });
   });
 
@@ -256,10 +258,10 @@ export const analyzeRelationship = (messages: WhatsAppMessage[], analysis: ChatA
     });
     
     // Check for excuses
-    Object.keys(excuseWords).forEach(excuseType => {
-      excuseWords[excuseType].forEach(word => {
+    Object.keys(excuseWords).forEach((excuseType: string) => {
+      excuseWords[excuseType as ExcuseType].forEach(word => {
         if (content.includes(word)) {
-          relationshipAnalysis.funnyStats.excuseAnalysis[msg.sender][excuseType]++;
+          relationshipAnalysis.funnyStats.excuseAnalysis[msg.sender][excuseType as ExcuseType]++;
         }
       });
     });
@@ -360,13 +362,13 @@ export const analyzeRelationship = (messages: WhatsAppMessage[], analysis: ChatA
   // Find favorite excuse for each person
   participants.forEach(participant => {
     let maxExcuseCount = -1;
-    let favoriteExcuse = '';
+    let favoriteExcuse: ExcuseType | '' = '';
     
-    Object.keys(excuseWords).forEach(excuseType => {
-      const count = relationshipAnalysis.funnyStats.excuseAnalysis[participant][excuseType];
+    Object.keys(excuseWords).forEach((excuseType: string) => {
+      const count = relationshipAnalysis.funnyStats.excuseAnalysis[participant][excuseType as ExcuseType];
       if (count > maxExcuseCount) {
         maxExcuseCount = count;
-        favoriteExcuse = excuseType;
+        favoriteExcuse = excuseType as ExcuseType;
       }
     });
     

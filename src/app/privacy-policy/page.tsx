@@ -86,8 +86,8 @@ export default function PrivacyPolicy() {
               <div className="mt-10 pt-6 border-t border-gray-200 dark:border-gray-700">
                 <p className="text-gray-700 dark:text-gray-300">
                   Herhangi bir sorunuz veya endişeniz varsa, lütfen bizimle iletişime geçin:{' '}
-                  <Link href="mailto:beratprodur2005@gmail.com" className="text-indigo-600 dark:text-indigo-400 hover:underline">
-                    beratprodur2005@gmail.com
+                  <Link href="mailto:ergunberat2005@gmail.com" className="text-indigo-600 dark:text-indigo-400 hover:underline">
+                    ergunberat2005@gmail.com
                   </Link>
                 </p>
               </div>
