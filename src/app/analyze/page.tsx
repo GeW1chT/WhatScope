@@ -68,7 +68,7 @@ const AnalyzePage = () => {
           <div className="text-center">
             <div className="flex items-center justify-center mb-4">
               <Image 
-                src="/logo.png" 
+                src="/logo-transparent.png" 
                 alt="WhatsScope Logo" 
                 width={50} 
                 height={50} 

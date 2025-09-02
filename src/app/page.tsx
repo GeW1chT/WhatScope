@@ -11,13 +11,15 @@ export default function Home() {
         <header className="text-center mb-8 sm:mb-16">
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center">
-              <Image 
-                src="/logo.png" 
-                alt="WhatsScope Logo" 
-                width={60} 
-                height={60} 
-                className="mr-3"
-              />
+              <div className="relative w-[60px] h-[60px] mr-3">
+                <Image 
+                  src="/logo-transparent.png" 
+                  alt="WhatsScope Logo" 
+                  fill
+                  style={{ objectFit: "contain" }}
+                  className="drop-shadow-md"
+                />
+              </div>
               <h1 className="text-4xl sm:text-5xl font-bold text-indigo-600 dark:text-indigo-400">
                 WhatsScope
               </h1>

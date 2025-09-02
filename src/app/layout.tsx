@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/logo.png',
+        url: '/logo-transparent.png',
         width: 400,
         height: 400,
         alt: 'WhatsScope Logo',
@@ -44,12 +44,12 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'WhatsScope - WhatsApp Sohbet Analizi',
     description: 'WhatsApp sohbetlerinizi analiz edin.',
-    images: ['/logo.png'],
+    images: ['/logo-transparent.png'],
   },
   icons: {
     icon: '/favicon.ico',
-    shortcut: '/logo.png',
-    apple: '/logo.png',
+    shortcut: '/logo-transparent.png',
+    apple: '/logo-transparent.png',
   }
 };
 
