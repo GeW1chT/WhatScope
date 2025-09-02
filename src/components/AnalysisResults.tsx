@@ -10,13 +10,14 @@ import TimelineChart from '@/components/Charts/TimelineChart';
 import ShareResults from '@/components/ShareComponents/ShareResults';
 import CommunicationDynamics from '@/components/Reports/CommunicationDynamics';
 import PremiumFeatures from '@/components/Reports/PremiumFeatures';
+import RelationshipAnalysis from '@/components/Reports/RelationshipAnalysis';
 
 interface AnalysisResultsProps {
   analysis: ChatAnalysis;
 }
 
 const AnalysisResults = ({ analysis }: AnalysisResultsProps) => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'emojis' | 'time' | 'sentiment' | 'communication' | 'premium'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'emojis' | 'time' | 'sentiment' | 'communication' | 'premium' | 'relationship'>('overview');
   const resultsRef = useRef<HTMLDivElement>(null);
   
   return (
@@ -79,6 +80,22 @@ const AnalysisResults = ({ analysis }: AnalysisResultsProps) => {
           </button>
           
           <button
+            onClick={() => setActiveTab('relationship')}
+            className={`px-4 py-2 text-sm md:text-base rounded-lg mx-1 transition-colors ${
+              activeTab === 'relationship'
+                ? 'bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300'
+                : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+            }`}
+          >
+            <span className="inline-flex items-center">
+              İlişki Analizi
+              <span className="ml-1 bg-pink-100 text-pink-800 text-xs font-medium px-1.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300">
+                Yeni
+              </span>
+            </span>
+          </button>
+          
+          <button
             onClick={() => setActiveTab('premium')}
             className={`px-4 py-2 text-sm md:text-base rounded-lg mx-1 transition-colors ${
               activeTab === 'premium'
@@ -119,6 +136,10 @@ const AnalysisResults = ({ analysis }: AnalysisResultsProps) => {
         
         {activeTab === 'premium' && (
           <PremiumFeatures analysis={analysis} />
+        )}
+        
+        {activeTab === 'relationship' && (
+          <RelationshipAnalysis analysis={analysis} />
         )}
       </div>
       

@@ -7,6 +7,7 @@ import analyzeTimePatterns from '@/lib/analyzers/timeAnalyzer';
 import analyzeSentiment from '@/lib/analyzers/sentimentAnalyzer';
 import analyzeCommunicationDynamics from '@/lib/analyzers/communicationAnalyzer';
 import analyzePremiumFeatures from '@/lib/analyzers/premiumAnalyzer';
+import analyzeRelationship from '@/lib/analyzers/relationshipAnalyzer';
 
 interface AnalysisHookResult {
   analysis: ChatAnalysis | null;
@@ -103,15 +104,21 @@ export const useAnalysis = (): AnalysisHookResult => {
         setProgress(75);
         await new Promise(resolve => setTimeout(resolve, 0));
 
-        // Step 7: Premium features analysis (90% of progress)
+        // Step 7: Premium features analysis (85% of progress)
         console.log('Starting premium features analysis...');
         const analysisWithPremium = analyzePremiumFeatures(messagesToAnalyze, analysisWithCommunication);
-        setProgress(90);
+        setProgress(85);
+        await new Promise(resolve => setTimeout(resolve, 0));
+        
+        // Step 8: Relationship analysis (95% of progress)
+        console.log('Starting relationship analysis...');
+        const analysisWithRelationship = analyzeRelationship(messagesToAnalyze, analysisWithPremium);
+        setProgress(95);
         await new Promise(resolve => setTimeout(resolve, 0));
 
         // Add messages to the analysis for reference in UI components
         const finalAnalysis = {
-          ...analysisWithPremium,
+          ...analysisWithRelationship,
           messages: messagesToAnalyze
         };
 

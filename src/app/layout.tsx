@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     shortcut: '/logo-transparent.png',
     apple: '/logo-transparent.png',
   }
-};
+};  
 
 export default function RootLayout({
   children,

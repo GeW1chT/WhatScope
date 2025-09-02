@@ -80,6 +80,69 @@ export interface PremiumFeatures {
   customDateRangeAnalysis: (startDate: Date, endDate: Date) => ChatAnalysis;
 }
 
+// Add the new RelationshipAnalysis interface
+export interface RelationshipAnalysis {
+  romanticAnalysis: {
+    romanticWordCounts: Record<string, number>;
+    mostRomanticPerson: string;
+    romanticScore: number;
+    heartEmojisCount: Record<string, number>;
+  };
+  conflictAnalysis: {
+    apologyWordCounts: Record<string, number>;
+    argumentWordCounts: Record<string, number>;
+    mostApologeticPerson: string;
+    mostArgumentativePerson: string;
+    conflictResolutionScore: number;
+  };
+  humorAnalysis: {
+    funnyWordCounts: Record<string, number>;
+    laughEmojiCounts: Record<string, number>;
+    funniestPerson: string;
+    humorScore: number;
+  };
+  timingAnalysis: {
+    nightOwlScore: Record<string, number>;
+    earlyBirdScore: Record<string, number>;
+    sleepPatternType: Record<string, 'nightOwl' | 'earlyBird' | 'balanced'>;
+  };
+  talkativenessAnalysis: {
+    averageMessageLength: Record<string, number>;
+    mostTalkativePerson: string;
+    longestMessage: {
+      sender: string;
+      length: number;
+      preview: string;
+    };
+  };
+  funnyStats: {
+    excuseAnalysis: Record<string, Record<string, number>>;
+    favoriteExcuse: Record<string, string>;
+    foodObsession: Record<string, number>;
+    foodLover: string;
+    selfieTaker: string;
+    photoShareCount: Record<string, number>;
+    emojiPersonality: Record<string, string>;
+    slowResponder: {
+      person: string;
+      averageTime: number; // in minutes
+    };
+  };
+  compatibilityScores: {
+    comedyCompatibility: number;
+    timeCompatibility: number;
+    communicationCompatibility: number;
+    emojiCompatibility: number;
+    overallCompatibility: number;
+  };
+  funnyTitles: {
+    shakespeareTitle: string; // Person with longest messages
+    emojiArtistTitle: string; // Person using most diverse emojis
+    patienceTestTitle: string; // Person with fastest responses
+    nightBomberTitle: string; // Most active after midnight
+  };
+}
+
 export interface ChatAnalysis {
   participants: string[];
   totalMessages: number;
@@ -144,4 +207,6 @@ export interface ChatAnalysis {
   // Add the new premium features field
   premiumFeatures?: PremiumFeatures;
   messages: WhatsAppMessage[]; // Add this to store messages for reference in UI
+  // Add the new relationship analysis field
+  relationshipAnalysis?: RelationshipAnalysis;
 }
