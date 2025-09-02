@@ -67,13 +67,6 @@ const AnalyzePage = () => {
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 max-w-2xl mx-auto">
           <div className="text-center">
             <div className="flex items-center justify-center mb-4">
-              <Image 
-                src="/logo-transparent.png" 
-                alt="WhatsScope Logo" 
-                width={50} 
-                height={50} 
-                className="mr-2"
-              />
               <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
                 Sohbetiniz Analiz Ediliyor
               </h1>
