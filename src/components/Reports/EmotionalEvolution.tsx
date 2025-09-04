@@ -6,6 +6,7 @@ import { tr } from 'date-fns/locale';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { ChatAnalysis } from '@/types/chat';
 import { SENTIMENT_LABELS_TR } from '@/lib/constants';
+import { motion } from 'framer-motion';
 
 interface EmotionalEvolutionProps {
   analysis: ChatAnalysis;
@@ -26,14 +27,24 @@ const EmotionalEvolution = ({ analysis }: EmotionalEvolutionProps) => {
   
   if (!analysis.sentimentAnalysis) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
-        <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
-          Duygusal Evrim Analizi
-        </h3>
-        <p className="text-gray-600 dark:text-gray-300">
+      <motion.div 
+        className="backdrop-blur-md bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-3xl shadow-2xl p-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="flex items-center mb-6">
+          <div className="w-12 h-12 bg-gradient-to-r from-pink-400 to-rose-500 rounded-2xl flex items-center justify-center mr-4">
+            <span className="text-2xl">🧠</span>
+          </div>
+          <h3 className="text-3xl font-bold text-white">
+            Duygusal Evrim Analizi
+          </h3>
+        </div>
+        <p className="text-white/70">
           Duygusal analiz verisi bulunamadı.
         </p>
-      </div>
+      </motion.div>
     );
   }
   
@@ -140,71 +151,103 @@ const EmotionalEvolution = ({ analysis }: EmotionalEvolutionProps) => {
   }));
   
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
-      <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6">
-        Duygusal Evrim Analizi
-      </h3>
-      
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-4">
-          <h4 className="text-lg font-medium text-gray-800 dark:text-gray-100">
+    <div className="space-y-8">
+      {/* Main Header */}
+      <motion.div 
+        className="backdrop-blur-md bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-3xl shadow-2xl p-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="flex items-center mb-8">
+          <div className="w-12 h-12 bg-gradient-to-r from-pink-400 to-rose-500 rounded-2xl flex items-center justify-center mr-4">
+            <span className="text-2xl">🧠</span>
+          </div>
+          <h3 className="text-3xl font-bold text-white">
+            Duygusal Evrim Analizi
+          </h3>
+        </div>
+        
+        {/* Time Span Selector */}
+        <div className="flex justify-between items-center mb-8">
+          <h4 className="text-2xl font-bold text-white">
             Duygusal Değişim Grafiği
           </h4>
           
-          <div className="flex bg-gray-100 dark:bg-gray-700 rounded-md">
-            <button
+          <div className="flex backdrop-blur-sm bg-white/10 border border-white/20 rounded-2xl p-1">
+            <motion.button
               onClick={() => setTimeSpan('all')}
-              className={`px-3 py-1 text-sm rounded-md ${
+              className={`px-4 py-2 text-sm rounded-xl transition-all duration-300 ${
                 timeSpan === 'all'
-                  ? 'bg-indigo-600 text-white'
-                  : 'text-gray-600 dark:text-gray-300'
+                  ? 'bg-gradient-to-r from-pink-400 to-rose-500 text-white shadow-lg'
+                  : 'text-white/70 hover:text-white hover:bg-white/10'
               }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               Tümü
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               onClick={() => setTimeSpan('year')}
-              className={`px-3 py-1 text-sm rounded-md ${
+              className={`px-4 py-2 text-sm rounded-xl transition-all duration-300 ${
                 timeSpan === 'year'
-                  ? 'bg-indigo-600 text-white'
-                  : 'text-gray-600 dark:text-gray-300'
+                  ? 'bg-gradient-to-r from-pink-400 to-rose-500 text-white shadow-lg'
+                  : 'text-white/70 hover:text-white hover:bg-white/10'
               }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               Yıllık
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               onClick={() => setTimeSpan('month')}
-              className={`px-3 py-1 text-sm rounded-md ${
+              className={`px-4 py-2 text-sm rounded-xl transition-all duration-300 ${
                 timeSpan === 'month'
-                  ? 'bg-indigo-600 text-white'
-                  : 'text-gray-600 dark:text-gray-300'
+                  ? 'bg-gradient-to-r from-pink-400 to-rose-500 text-white shadow-lg'
+                  : 'text-white/70 hover:text-white hover:bg-white/10'
               }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               Aylık
-            </button>
+            </motion.button>
           </div>
         </div>
         
-        <div className="h-80">
+        {/* Chart Container */}
+        <motion.div 
+          className="h-80 backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6 mb-8"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
           {percentageData.length > 0 ? (
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart
                 data={percentageData}
                 margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                 <XAxis 
                   dataKey="displayDate" 
-                  tick={{ fill: '#6b7280' }}
+                  tick={{ fill: 'rgba(255,255,255,0.7)' }}
                 />
                 <YAxis 
-                  tick={{ fill: '#6b7280' }}
+                  tick={{ fill: 'rgba(255,255,255,0.7)' }}
                   domain={[0, 100]}
                   tickFormatter={(value) => `${value}%`}
                 />
                 <Tooltip 
                   formatter={(value) => [`${Number(value).toFixed(1)}%`, '']}
                   labelFormatter={(label) => `Tarih: ${label}`}
+                  contentStyle={{
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    backdropFilter: 'blur(12px)',
+                    borderColor: 'rgba(255,255,255,0.2)',
+                    borderRadius: '12px',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    color: 'white'
+                  }}
                 />
                 <Area 
                   type="monotone" 
@@ -237,52 +280,71 @@ const EmotionalEvolution = ({ analysis }: EmotionalEvolutionProps) => {
             </ResponsiveContainer>
           ) : (
             <div className="flex items-center justify-center h-full">
-              <p className="text-gray-500 dark:text-gray-400">
+              <p className="text-white/70">
                 Yeterli veri bulunamadı.
               </p>
             </div>
           )}
-        </div>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4">
-          <p className="text-sm text-gray-500 dark:text-gray-400">En Pozitif Dönem</p>
-          <p className="text-lg font-bold text-green-700 dark:text-green-300 mt-1">
-            {sentimentAnalysis.happiest.date 
-              ? format(new Date(sentimentAnalysis.happiest.date), 'd MMMM yyyy', { locale: tr }) 
-              : 'Veri yok'}
-          </p>
+        </motion.div>
+        
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <motion.div 
+            className="backdrop-blur-sm bg-gradient-to-br from-green-500/10 to-emerald-600/10 border border-green-400/20 rounded-2xl p-6"
+            whileHover={{ scale: 1.02, y: -5 }}
+            transition={{ duration: 0.3 }}
+          >
+            <p className="text-sm text-green-300 font-medium mb-2">En Pozitif Dönem</p>
+            <p className="text-lg font-bold text-white">
+              {sentimentAnalysis.happiest.date 
+                ? format(new Date(sentimentAnalysis.happiest.date), 'd MMMM yyyy', { locale: tr }) 
+                : 'Veri yok'}
+            </p>
+          </motion.div>
+          
+          <motion.div 
+            className="backdrop-blur-sm bg-gradient-to-br from-red-500/10 to-rose-600/10 border border-red-400/20 rounded-2xl p-6"
+            whileHover={{ scale: 1.02, y: -5 }}
+            transition={{ duration: 0.3 }}
+          >
+            <p className="text-sm text-red-300 font-medium mb-2">En Negatif Dönem</p>
+            <p className="text-lg font-bold text-white">
+              {sentimentAnalysis.saddest.date 
+                ? format(new Date(sentimentAnalysis.saddest.date), 'd MMMM yyyy', { locale: tr }) 
+                : 'Veri yok'}
+            </p>
+          </motion.div>
+          
+          <motion.div 
+            className="backdrop-blur-sm bg-gradient-to-br from-blue-500/10 to-indigo-600/10 border border-blue-400/20 rounded-2xl p-6"
+            whileHover={{ scale: 1.02, y: -5 }}
+            transition={{ duration: 0.3 }}
+          >
+            <p className="text-sm text-blue-300 font-medium mb-2">En Yoğun Dönem</p>
+            <p className="text-lg font-bold text-white">
+              {analysis.timeStats.mostActiveDate 
+                ? format(new Date(analysis.timeStats.mostActiveDate), 'd MMMM yyyy', { locale: tr }) 
+                : 'Veri yok'}
+            </p>
+          </motion.div>
         </div>
         
-        <div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-4">
-          <p className="text-sm text-gray-500 dark:text-gray-400">En Negatif Dönem</p>
-          <p className="text-lg font-bold text-red-700 dark:text-red-300 mt-1">
-            {sentimentAnalysis.saddest.date 
-              ? format(new Date(sentimentAnalysis.saddest.date), 'd MMMM yyyy', { locale: tr }) 
-              : 'Veri yok'}
+        {/* Info Box */}
+        <motion.div 
+          className="mt-8 backdrop-blur-sm bg-gradient-to-br from-indigo-500/10 to-purple-600/10 border border-indigo-400/20 rounded-2xl p-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <h4 className="font-bold text-indigo-300 mb-2">
+            Duygusal Yolculuğunuz
+          </h4>
+          <p className="text-white/80 text-sm">
+            Bu grafik, zaman içindeki duygusal değişimlerinizi gösterir. 
+            Pozitif duygular yeşil, nötr duygular gri, negatif duygular kırmızı ile gösterilmiştir.
           </p>
-        </div>
-        
-        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
-          <p className="text-sm text-gray-500 dark:text-gray-400">En Yoğun Dönem</p>
-          <p className="text-lg font-bold text-blue-700 dark:text-blue-300 mt-1">
-            {analysis.timeStats.mostActiveDate 
-              ? format(new Date(analysis.timeStats.mostActiveDate), 'd MMMM yyyy', { locale: tr }) 
-              : 'Veri yok'}
-          </p>
-        </div>
-      </div>
-      
-      <div className="mt-6 p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg">
-        <h4 className="font-medium text-indigo-700 dark:text-indigo-300 mb-2">
-          Duygusal Yolculuğunuz
-        </h4>
-        <p className="text-gray-600 dark:text-gray-300 text-sm">
-          Bu grafik, zaman içindeki duygusal değişimlerinizi gösterir. 
-          Pozitif duygular yeşil, nötr duygular gri, negatif duygular kırmızı ile gösterilmiştir.
-        </p>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };

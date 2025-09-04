@@ -111,7 +111,7 @@ const generateKomikInsights = (analysis: ChatAnalysis, relationshipAnalysis: Rel
   
   // Food obsession insight
   const foodLover = relationshipAnalysis.funnyStats.foodLover;
-  const foodCount = relationshipAnalysis.funnyStats.foodObsession[foodLover];
+  const foodCount = relationshipAnalysis.funnyStats.foodObsession[foodLover] || 0;
   if (foodCount > 20) {
     insights.push(`Yemek konusunda ciddi bir obsesifsiniz - Gordon Ramsay bile kıskanabilir`);
   }
@@ -198,7 +198,7 @@ const generateFakeLeaderboard = (analysis: ChatAnalysis, relationshipAnalysis: R
   // Find user's position in the funny leaderboard
   let userFunnyScore = 0;
   if (relationshipAnalysis.humorAnalysis) {
-    userFunnyScore = Math.round(relationshipAnalysis.humorAnalysis.humorScore / 10); // Normalize to 0-100
+    userFunnyScore = Math.round((relationshipAnalysis.humorAnalysis.humorScore || 0) / 10); // Normalize to 0-100
   }
   
   // Add user to the leaderboard if they have a high enough score
@@ -405,14 +405,20 @@ const RelationshipAnalysis = ({ analysis }: RelationshipAnalysisProps) => {
                     <div>
                       <h4 className="font-semibold text-lg mb-2">En Çok Kullanılan Kelimeler (2024)</h4>
                       <ul className="space-y-2">
-                        {seasonalContent.mostUsedWords.map(([word, count], index) => (
-                          <li key={word} className="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700 rounded">
-                            <span className="font-medium">#{index + 1} {word}</span>
-                            <span className="bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 px-2 py-1 rounded-full text-sm">
-                              {count} kez
-                            </span>
+                        {seasonalContent.mostUsedWords.length > 0 ? (
+                          seasonalContent.mostUsedWords.map(([word, count], index) => (
+                            <li key={word} className="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700 rounded">
+                              <span className="font-medium">#{index + 1} {word}</span>
+                              <span className="bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 px-2 py-1 rounded-full text-sm">
+                                {count} kez
+                              </span>
+                            </li>
+                          ))
+                        ) : (
+                          <li className="p-2 bg-gray-50 dark:bg-gray-700 rounded text-gray-500">
+                            Bu yıl için yeterli veri bulunamadı
                           </li>
-                        ))}
+                        )}
                       </ul>
                     </div>
                     
@@ -489,7 +495,7 @@ const RelationshipAnalysis = ({ analysis }: RelationshipAnalysisProps) => {
                           <svg className="h-5 w-5 text-yellow-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                           </svg>
-                          En yoğun saat: {analysis.timeStats.mostActiveHour}:00 ({analysis.timeStats.byHour[analysis.timeStats.mostActiveHour] || 0} mesaj)
+                          En yoğun saat: {analysis.timeStats.mostActiveHour !== undefined ? `${analysis.timeStats.mostActiveHour}:00 (${analysis.timeStats.byHour[analysis.timeStats.mostActiveHour] || 0} mesaj)` : 'Bilinmiyor'}
                         </li>
                       </ul>
                     </div>
@@ -539,10 +545,10 @@ const RelationshipAnalysis = ({ analysis }: RelationshipAnalysisProps) => {
                 <CardContent>
                   <div className="mb-4">
                     <h4 className="font-semibold text-indigo-600 dark:text-indigo-400 mb-2">
-                      En Romantik Kişi: {relationshipAnalysis.romanticAnalysis.mostRomanticPerson}
+                      En Romantik Kişi: {relationshipAnalysis.romanticAnalysis.mostRomanticPerson || 'Bilinmiyor'}
                     </h4>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {relationshipAnalysis.romanticAnalysis.romanticScore} romantik ifade ve emoji kullanımı
+                      {relationshipAnalysis.romanticAnalysis.romanticScore || 0} romantik ifade ve emoji kullanımı
                     </p>
                   </div>
                   
@@ -576,10 +582,10 @@ const RelationshipAnalysis = ({ analysis }: RelationshipAnalysisProps) => {
                 <CardContent>
                   <div className="mb-4">
                     <h4 className="font-semibold text-indigo-600 dark:text-indigo-400 mb-2">
-                      En Komik Kişi: {relationshipAnalysis.humorAnalysis.funniestPerson}
+                      En Komik Kişi: {relationshipAnalysis.humorAnalysis.funniestPerson || 'Bilinmiyor'}
                     </h4>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {relationshipAnalysis.humorAnalysis.humorScore} komik ifade ve emoji kullanımı
+                      {relationshipAnalysis.humorAnalysis.humorScore || 0} komik ifade ve emoji kullanımı
                     </p>
                   </div>
                   
@@ -616,7 +622,7 @@ const RelationshipAnalysis = ({ analysis }: RelationshipAnalysisProps) => {
                   {participants.map(participant => (
                     <div key={participant} className="mb-4">
                       <h4 className="font-semibold">{participant}</h4>
-                      <p>Favori Bahane: {relationshipAnalysis.funnyStats.favoriteExcuse[participant]}</p>
+                      <p>Favori Bahane: {relationshipAnalysis.funnyStats.favoriteExcuse?.[participant] || 'Bilinmiyor'}</p>
                     </div>
                   ))}
                 </CardContent>
@@ -627,8 +633,8 @@ const RelationshipAnalysis = ({ analysis }: RelationshipAnalysisProps) => {
                   <CardTitle>Yemek Obsesyonu 🍕</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <h4 className="font-semibold">Yemek Aşığı: {relationshipAnalysis.funnyStats.foodLover}</h4>
-                  <p>Yemekle ilgili {relationshipAnalysis.funnyStats.foodObsession[relationshipAnalysis.funnyStats.foodLover]} mesaj</p>
+                  <h4 className="font-semibold">Yemek Aşığı: {relationshipAnalysis.funnyStats.foodLover || 'Bilinmiyor'}</h4>
+                  <p>Yemekle ilgili {relationshipAnalysis.funnyStats.foodObsession?.[relationshipAnalysis.funnyStats.foodLover] || 0} mesaj</p>
                 </CardContent>
               </Card>
 
@@ -638,8 +644,8 @@ const RelationshipAnalysis = ({ analysis }: RelationshipAnalysisProps) => {
                   <CardDescription>Fotoğraf paylaşım istatistikleri</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <h4 className="font-semibold">{relationshipAnalysis.funnyStats.selfieTaker}</h4>
-                  <p>Toplam {relationshipAnalysis.funnyStats.photoShareCount[relationshipAnalysis.funnyStats.selfieTaker]} fotoğraf paylaşımı</p>
+                  <h4 className="font-semibold">{relationshipAnalysis.funnyStats.selfieTaker || 'Bilinmiyor'}</h4>
+                  <p>Toplam {relationshipAnalysis.funnyStats.photoShareCount?.[relationshipAnalysis.funnyStats.selfieTaker] || 0} fotoğraf paylaşımı</p>
                 </CardContent>
               </Card>
 
@@ -652,7 +658,7 @@ const RelationshipAnalysis = ({ analysis }: RelationshipAnalysisProps) => {
                   {participants.map(participant => (
                     <div key={participant} className="mb-4">
                       <h4 className="font-semibold">{participant}</h4>
-                      <p>Emoji Kişiliği: {relationshipAnalysis.funnyStats.emojiPersonality[participant]}</p>
+                      <p>Emoji Kişiliği: {relationshipAnalysis.funnyStats.emojiPersonality?.[participant] || 'Bilinmiyor'}</p>
                     </div>
                   ))}
                 </CardContent>
@@ -663,15 +669,15 @@ const RelationshipAnalysis = ({ analysis }: RelationshipAnalysisProps) => {
                   <CardTitle>Geç Cevap Şampiyonu ⏰</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <h4 className="font-semibold">{relationshipAnalysis.funnyStats.slowResponder.person}</h4>
-                  <p>Ortalama {Math.round(relationshipAnalysis.funnyStats.slowResponder.averageTime)} dakika içinde cevap veriyor</p>
+                  <h4 className="font-semibold">{relationshipAnalysis.funnyStats.slowResponder?.person || 'Bilinmiyor'}</h4>
+                  <p>Ortalama {relationshipAnalysis.funnyStats.slowResponder?.averageTime ? Math.round(relationshipAnalysis.funnyStats.slowResponder.averageTime) : 0} dakika içinde cevap veriyor</p>
                 </CardContent>
               </Card>
             </div>
           </TabsContent>
           
           <TabsContent value="compatibility" className="mt-4">
-            {participants.length === 2 ? (
+            {participants.length === 2 && relationshipAnalysis.compatibilityScores ? (
               <div className="space-y-6">
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
                   <h3 className="text-xl font-bold text-indigo-600 dark:text-indigo-400 mb-4">
@@ -684,7 +690,7 @@ const RelationshipAnalysis = ({ analysis }: RelationshipAnalysisProps) => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="bg-indigo-50 dark:bg-indigo-900/20 p-6 rounded-xl">
                       <h4 className="text-lg font-semibold text-indigo-700 dark:text-indigo-300 mb-3">
-                        Genel Uyum Skoru: {Math.round(relationshipAnalysis.compatibilityScores.overallCompatibility)}%
+                        Genel Uyum Skoru: {Math.round(relationshipAnalysis.compatibilityScores.overallCompatibility || 0)}%
                       </h4>
                       <p className="text-gray-600 dark:text-gray-400">
                         {relationshipAnalysis.compatibilityScores.overallCompatibility > 80 ? 
@@ -703,40 +709,40 @@ const RelationshipAnalysis = ({ analysis }: RelationshipAnalysisProps) => {
                         <div>
                           <div className="flex justify-between items-center mb-1">
                             <span>Komedi Uyumu</span>
-                            <span className="font-semibold">{Math.round(relationshipAnalysis.compatibilityScores.comedyCompatibility)}%</span>
+                            <span className="font-semibold">{Math.round(relationshipAnalysis.compatibilityScores.comedyCompatibility || 0)}%</span>
                           </div>
                           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                            <div className="bg-purple-600 h-2.5 rounded-full" style={{ width: `${relationshipAnalysis.compatibilityScores.comedyCompatibility}%` }}></div>
+                            <div className="bg-purple-600 h-2.5 rounded-full" style={{ width: `${relationshipAnalysis.compatibilityScores.comedyCompatibility || 0}%` }}></div>
                           </div>
                         </div>
                         
                         <div>
                           <div className="flex justify-between items-center mb-1">
                             <span>Zaman Uyumu</span>
-                            <span className="font-semibold">{Math.round(relationshipAnalysis.compatibilityScores.timeCompatibility)}%</span>
+                            <span className="font-semibold">{Math.round(relationshipAnalysis.compatibilityScores.timeCompatibility || 0)}%</span>
                           </div>
                           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                            <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${relationshipAnalysis.compatibilityScores.timeCompatibility}%` }}></div>
+                            <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${relationshipAnalysis.compatibilityScores.timeCompatibility || 0}%` }}></div>
                           </div>
                         </div>
                         
                         <div>
                           <div className="flex justify-between items-center mb-1">
                             <span>İletişim Uyumu</span>
-                            <span className="font-semibold">{Math.round(relationshipAnalysis.compatibilityScores.communicationCompatibility)}%</span>
+                            <span className="font-semibold">{Math.round(relationshipAnalysis.compatibilityScores.communicationCompatibility || 0)}%</span>
                           </div>
                           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                            <div className="bg-green-600 h-2.5 rounded-full" style={{ width: `${relationshipAnalysis.compatibilityScores.communicationCompatibility}%` }}></div>
+                            <div className="bg-green-600 h-2.5 rounded-full" style={{ width: `${relationshipAnalysis.compatibilityScores.communicationCompatibility || 0}%` }}></div>
                           </div>
                         </div>
                         
                         <div>
                           <div className="flex justify-between items-center mb-1">
                             <span>Emoji Uyumu</span>
-                            <span className="font-semibold">{Math.round(relationshipAnalysis.compatibilityScores.emojiCompatibility)}%</span>
+                            <span className="font-semibold">{Math.round(relationshipAnalysis.compatibilityScores.emojiCompatibility || 0)}%</span>
                           </div>
                           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                            <div className="bg-pink-600 h-2.5 rounded-full" style={{ width: `${relationshipAnalysis.compatibilityScores.emojiCompatibility}%` }}></div>
+                            <div className="bg-pink-600 h-2.5 rounded-full" style={{ width: `${relationshipAnalysis.compatibilityScores.emojiCompatibility || 0}%` }}></div>
                           </div>
                         </div>
                       </div>
@@ -766,11 +772,11 @@ const RelationshipAnalysis = ({ analysis }: RelationshipAnalysisProps) => {
                 <CardContent>
                   <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg">
                     <h3 className="text-xl font-bold text-indigo-700 dark:text-indigo-300">
-                      {relationshipAnalysis.funnyTitles.shakespeareTitle}
+                      {relationshipAnalysis.funnyTitles?.shakespeareTitle || 'Bilinmiyor'}
                     </h3>
                     <p className="mt-2 text-gray-600 dark:text-gray-400">
-                      Ortalama {Math.round(relationshipAnalysis.talkativenessAnalysis.averageMessageLength[relationshipAnalysis.funnyTitles.shakespeareTitle])} karakterlik mesajlar yazıyor. 
-                      En uzun mesajı {relationshipAnalysis.talkativenessAnalysis.longestMessage.length} karakter uzunluğunda!
+                      Ortalama {relationshipAnalysis.talkativenessAnalysis.averageMessageLength?.[relationshipAnalysis.funnyTitles?.shakespeareTitle] ? Math.round(relationshipAnalysis.talkativenessAnalysis.averageMessageLength[relationshipAnalysis.funnyTitles.shakespeareTitle]) : 0} karakterlik mesajlar yazıyor. 
+                      {relationshipAnalysis.talkativenessAnalysis.longestMessage ? ` En uzun mesajı ${relationshipAnalysis.talkativenessAnalysis.longestMessage.length} karakter uzunluğunda!` : ''}
                     </p>
                   </div>
                 </CardContent>
@@ -784,7 +790,7 @@ const RelationshipAnalysis = ({ analysis }: RelationshipAnalysisProps) => {
                 <CardContent>
                   <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
                     <h3 className="text-xl font-bold text-purple-700 dark:text-purple-300">
-                      {relationshipAnalysis.funnyTitles.emojiArtistTitle}
+                      {relationshipAnalysis.funnyTitles?.emojiArtistTitle || 'Bilinmiyor'}
                     </h3>
                     <p className="mt-2 text-gray-600 dark:text-gray-400">
                       Sohbette en yaratıcı emoji kullanımına sahip. Kendini ifade etmek için emoji dünyasını kullanıyor!
@@ -801,7 +807,7 @@ const RelationshipAnalysis = ({ analysis }: RelationshipAnalysisProps) => {
                 <CardContent>
                   <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
                     <h3 className="text-xl font-bold text-green-700 dark:text-green-300">
-                      {relationshipAnalysis.funnyTitles.patienceTestTitle}
+                      {relationshipAnalysis.funnyTitles?.patienceTestTitle || 'Bilinmiyor'}
                     </h3>
                     <p className="mt-2 text-gray-600 dark:text-gray-400">
                       Şimşek hızında cevap veriyor! Mesajlarınıza hemen yanıt alabilirsiniz.
@@ -818,7 +824,7 @@ const RelationshipAnalysis = ({ analysis }: RelationshipAnalysisProps) => {
                 <CardContent>
                   <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                     <h3 className="text-xl font-bold text-blue-700 dark:text-blue-300">
-                      {relationshipAnalysis.funnyTitles.nightBomberTitle}
+                      {relationshipAnalysis.funnyTitles?.nightBomberTitle || 'Bilinmiyor'}
                     </h3>
                     <p className="mt-2 text-gray-600 dark:text-gray-400">
                       Gece kuşu! Gece geç saatlerde aktif olup mesaj gönderiyor.

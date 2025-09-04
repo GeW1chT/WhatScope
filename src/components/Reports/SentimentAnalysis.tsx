@@ -6,6 +6,7 @@ import { tr } from 'date-fns/locale';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Cell } from 'recharts';
 import { ChatAnalysis } from '@/types/chat';
 import { CHART_COLORS, SENTIMENT_LABELS_TR } from '@/lib/constants';
+import { motion } from 'framer-motion';
 
 interface SentimentAnalysisProps {
   analysis: ChatAnalysis;
@@ -24,14 +25,24 @@ const SentimentAnalysis = ({ analysis }: SentimentAnalysisProps) => {
   
   if (!analysis.sentimentAnalysis) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
-        <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
-          Duygusal Analiz
-        </h3>
-        <p className="text-gray-600 dark:text-gray-300">
+      <motion.div 
+        className="backdrop-blur-md bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-3xl shadow-2xl p-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="flex items-center mb-6">
+          <div className="w-12 h-12 bg-gradient-to-r from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center mr-4">
+            <span className="text-2xl">💭</span>
+          </div>
+          <h3 className="text-3xl font-bold text-white">
+            Duygusal Analiz
+          </h3>
+        </div>
+        <p className="text-white/70">
           Duygusal analiz verisi bulunamadı.
         </p>
-      </div>
+      </motion.div>
     );
   }
   
@@ -53,7 +64,7 @@ const SentimentAnalysis = ({ analysis }: SentimentAnalysisProps) => {
     date,
     value: data.score,
     sentiment: data.sentiment,
-    displayDate: format(new Date(date), 'd MMM', { locale: tr }) // displayDate eklendi
+    displayDate: format(new Date(date), 'd MMM', { locale: tr })
   })).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   
   // Filter data based on selected time span
@@ -78,116 +89,188 @@ const SentimentAnalysis = ({ analysis }: SentimentAnalysisProps) => {
     }))
     .sort((a, b) => b.value - a.value);
   
-  // Prepare most intense messages data
-  const intenseMessagesData = sentimentAnalysis.mostIntenseMessages
-    .map((msg, index) => {
-      // Safely access message content with error handling
-      const message = analysis.messages[msg.messageId];
-      const content = message ? message.content : 'Mesaj bulunamadı';
-      const sender = message ? message.sender : 'Bilinmeyen';
-      const timestamp = message ? message.timestamp : new Date();
-      
-      return {
-        id: index, // Add unique id for React keys
-        content: msg.emotionalCategory ? `${msg.emotionalCategory}: ${content.substring(0, 50)}...` : content.substring(0, 50) + '...',
-        intensity: msg.intensity * Math.abs(msg.score),
-        sentiment: msg.sentiment,
-        sender,
-        timestamp
-      };
-    })
-    .sort((a, b) => b.intensity - a.intensity);
-  
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
-      <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6">
-        Duygusal Analiz
-      </h3>
-      
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-indigo-50 dark:bg-indigo-900/30 rounded-lg p-4">
-          <p className="text-sm text-gray-500 dark:text-gray-400">Genel Duygusal Ton</p>
-          <div className="flex items-center mt-1">
-            <div 
-              className="w-4 h-4 rounded-full mr-2"
-              style={{ backgroundColor: sentimentColor }}
-            ></div>
-            <p className="text-xl font-bold text-gray-800 dark:text-gray-100">
-              {SENTIMENT_LABELS_TR[overallSentiment]}
-            </p>
+    <div className="space-y-8">
+      {/* Main Header */}
+      <motion.div 
+        className="backdrop-blur-md bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-3xl shadow-2xl p-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="flex items-center mb-8">
+          <div className="w-12 h-12 bg-gradient-to-r from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center mr-4">
+            <span className="text-2xl">💭</span>
           </div>
+          <h3 className="text-3xl font-bold text-white">
+            Duygusal Analiz
+          </h3>
         </div>
         
-        <div className="bg-green-50 dark:bg-green-900/30 rounded-lg p-4">
-          <p className="text-sm text-gray-500 dark:text-gray-400">En Mutlu Gün</p>
-          <p className="text-xl font-bold text-gray-800 dark:text-gray-100">
-            {sentimentAnalysis.happiest.date ? format(new Date(sentimentAnalysis.happiest.date), 'd MMMM yyyy', { locale: tr }) : 'Veri yok'}
-          </p>
-        </div>
-        
-        <div className="bg-red-50 dark:bg-red-900/30 rounded-lg p-4">
-          <p className="text-sm text-gray-500 dark:text-gray-400">En Üzgün Gün</p>
-          <p className="text-xl font-bold text-gray-800 dark:text-gray-100">
-            {sentimentAnalysis.saddest.date ? format(new Date(sentimentAnalysis.saddest.date), 'd MMMM yyyy', { locale: tr }) : 'Veri yok'}
-          </p>
-        </div>
-      </div>
-      
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-4">
-          <h4 className="text-lg font-medium text-gray-800 dark:text-gray-100">
-            Duygusal Ton Değişimi
-          </h4>
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <motion.div 
+            className="backdrop-blur-sm bg-gradient-to-br from-blue-500/10 to-indigo-600/10 border border-blue-400/20 rounded-2xl p-6"
+            whileHover={{ scale: 1.02, y: -5 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center">
+                <div className="w-10 h-10 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-xl flex items-center justify-center mr-3">
+                  <span className="text-xl">🎭</span>
+                </div>
+                <div>
+                  <p className="text-blue-300 text-sm font-medium">Genel Duygusal Ton</p>
+                  <div className="flex items-center mt-1">
+                    <motion.div 
+                      className="w-4 h-4 rounded-full mr-2"
+                      style={{ backgroundColor: sentimentColor }}
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 0.5, delay: 0.3 }}
+                    />
+                    <p className="text-2xl font-black text-white">
+                      {SENTIMENT_LABELS_TR[overallSentiment]}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="w-full bg-white/10 rounded-full h-3 overflow-hidden">
+              <motion.div 
+                className="bg-gradient-to-r from-blue-400 to-indigo-500 h-3 rounded-full relative overflow-hidden"
+                style={{ width: `${Math.abs(sentimentAnalysis.overallScore) * 100}%` }}
+                initial={{ width: 0 }}
+                animate={{ width: `${Math.abs(sentimentAnalysis.overallScore) * 100}%` }}
+                transition={{ duration: 1.5, delay: 0.5 }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"></div>
+              </motion.div>
+            </div>
+          </motion.div>
           
-          <div className="flex bg-gray-100 dark:bg-gray-700 rounded-md">
-            <button
+          <motion.div 
+            className="backdrop-blur-sm bg-gradient-to-br from-green-500/10 to-emerald-600/10 border border-green-400/20 rounded-2xl p-6"
+            whileHover={{ scale: 1.02, y: -5 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <div className="flex items-center mb-4">
+              <div className="w-10 h-10 bg-gradient-to-r from-green-400 to-emerald-500 rounded-xl flex items-center justify-center mr-3">
+                <span className="text-xl">😊</span>
+              </div>
+              <div>
+                <p className="text-green-300 text-sm font-medium">En Mutlu Gün</p>
+                <p className="text-xl font-bold text-white mt-1">
+                  {sentimentAnalysis.happiest.date ? format(new Date(sentimentAnalysis.happiest.date), 'd MMMM yyyy', { locale: tr }) : 'Veri yok'}
+                </p>
+              </div>
+            </div>
+          </motion.div>
+          
+          <motion.div 
+            className="backdrop-blur-sm bg-gradient-to-br from-red-500/10 to-rose-600/10 border border-red-400/20 rounded-2xl p-6"
+            whileHover={{ scale: 1.02, y: -5 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <div className="flex items-center mb-4">
+              <div className="w-10 h-10 bg-gradient-to-r from-red-400 to-rose-500 rounded-xl flex items-center justify-center mr-3">
+                <span className="text-xl">😔</span>
+              </div>
+              <div>
+                <p className="text-red-300 text-sm font-medium">En Üzgün Gün</p>
+                <p className="text-xl font-bold text-white mt-1">
+                  {sentimentAnalysis.saddest.date ? format(new Date(sentimentAnalysis.saddest.date), 'd MMMM yyyy', { locale: tr }) : 'Veri yok'}
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </motion.div>
+      
+      {/* Sentiment Chart Section */}
+      <motion.div 
+        className="backdrop-blur-md bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-3xl shadow-2xl p-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
+        <div className="flex justify-between items-center mb-8">
+          <div className="flex items-center">
+            <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-xl flex items-center justify-center mr-3">
+              <span className="text-xl">📈</span>
+            </div>
+            <h4 className="text-2xl font-bold text-white">
+              Duygusal Ton Değişimi
+            </h4>
+          </div>
+          
+          <div className="flex backdrop-blur-sm bg-white/10 border border-white/20 rounded-2xl p-1">
+            <motion.button
               onClick={() => setTimeSpan('all')}
-              className={`px-3 py-1 text-sm rounded-md ${
+              className={`px-4 py-2 text-sm rounded-xl transition-all duration-300 ${
                 timeSpan === 'all'
-                  ? 'bg-indigo-600 text-white'
-                  : 'text-gray-600 dark:text-gray-300'
+                  ? 'bg-gradient-to-r from-cyan-400 to-blue-500 text-white shadow-lg'
+                  : 'text-white/70 hover:text-white hover:bg-white/10'
               }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               Tümü
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               onClick={() => setTimeSpan('month')}
-              className={`px-3 py-1 text-sm rounded-md ${
+              className={`px-4 py-2 text-sm rounded-xl transition-all duration-300 ${
                 timeSpan === 'month'
-                  ? 'bg-indigo-600 text-white'
-                  : 'text-gray-600 dark:text-gray-300'
+                  ? 'bg-gradient-to-r from-cyan-400 to-blue-500 text-white shadow-lg'
+                  : 'text-white/70 hover:text-white hover:bg-white/10'
               }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               Son Ay
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               onClick={() => setTimeSpan('week')}
-              className={`px-3 py-1 text-sm rounded-md ${
+              className={`px-4 py-2 text-sm rounded-xl transition-all duration-300 ${
                 timeSpan === 'week'
-                  ? 'bg-indigo-600 text-white'
-                  : 'text-gray-600 dark:text-gray-300'
+                  ? 'bg-gradient-to-r from-cyan-400 to-blue-500 text-white shadow-lg'
+                  : 'text-white/70 hover:text-white hover:bg-white/10'
               }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               Son Hafta
-            </button>
+            </motion.button>
           </div>
         </div>
         
-        <div className="h-60">
+        <motion.div 
+          className="h-80 backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
           {chartData.length > 0 ? (
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 data={chartData}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                 <XAxis 
                   dataKey="displayDate" 
-                  tick={{ fill: '#6b7280' }}
+                  tick={{ fill: 'rgba(255,255,255,0.7)' }}
                   interval={chartData.length > 15 ? Math.floor(chartData.length / 10) : 0}
                 />
                 <YAxis 
-                  tick={{ fill: '#6b7280' }}
+                  tick={{ fill: 'rgba(255,255,255,0.7)' }}
                   domain={[-1, 1]}
                   ticks={[-1, -0.5, 0, 0.5, 1]}
                   tickFormatter={(value) => {
@@ -216,160 +299,261 @@ const SentimentAnalysis = ({ analysis }: SentimentAnalysisProps) => {
                     return label;
                   }}
                   contentStyle={{
-                    backgroundColor: '#ffffff',
-                    borderColor: '#e5e7eb',
-                    borderRadius: '0.5rem',
-                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    backdropFilter: 'blur(12px)',
+                    borderColor: 'rgba(255,255,255,0.2)',
+                    borderRadius: '12px',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    color: 'white'
                   }}
                 />
                 <Line 
                   type="monotone" 
                   dataKey="value" 
-                  stroke="#4f46e5" 
-                  strokeWidth={2}
-                  dot={{ r: 4, fill: '#4f46e5' }}
+                  stroke="url(#gradient)" 
+                  strokeWidth={3}
+                  dot={{ r: 5, fill: '#06b6d4', strokeWidth: 2, stroke: '#ffffff' }}
                 />
+                <defs>
+                  <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#06b6d4" />
+                    <stop offset="50%" stopColor="#3b82f6" />
+                    <stop offset="100%" stopColor="#8b5cf6" />
+                  </linearGradient>
+                </defs>
               </LineChart>
             </ResponsiveContainer>
           ) : (
             <div className="flex items-center justify-center h-full">
-              <p className="text-gray-500 dark:text-gray-400">
+              <p className="text-white/70">
                 Seçilen zaman aralığında veri bulunamadı.
               </p>
             </div>
           )}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
       
       {/* Emotional Categories Chart */}
-      <div className="mb-6">
-        <h4 className="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4">
-          Duygusal Kategoriler
-        </h4>
+      <motion.div 
+        className="backdrop-blur-md bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-3xl shadow-2xl p-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+      >
+        <div className="flex items-center mb-8">
+          <div className="w-10 h-10 bg-gradient-to-r from-orange-400 to-red-500 rounded-xl flex items-center justify-center mr-3">
+            <span className="text-xl">🎨</span>
+          </div>
+          <h4 className="text-2xl font-bold text-white">
+            Duygusal Kategoriler
+          </h4>
+        </div>
         
-        <div className="h-60">
+        <motion.div 
+          className="h-80 backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
           {emotionalCategoriesData.length > 0 ? (
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={emotionalCategoriesData}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                 <XAxis 
                   dataKey="name" 
-                  tick={{ fill: '#6b7280' }}
+                  tick={{ fill: 'rgba(255,255,255,0.7)' }}
                 />
                 <YAxis 
-                  tick={{ fill: '#6b7280' }}
+                  tick={{ fill: 'rgba(255,255,255,0.7)' }}
                 />
                 <Tooltip
                   formatter={(value) => [value, 'Mesaj Sayısı']}
                   contentStyle={{
-                    backgroundColor: '#ffffff',
-                    borderColor: '#e5e7eb',
-                    borderRadius: '0.5rem',
-                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    backdropFilter: 'blur(12px)',
+                    borderColor: 'rgba(255,255,255,0.2)',
+                    borderRadius: '12px',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    color: 'white'
                   }}
                 />
-                <Bar dataKey="value" name="Mesaj Sayısı">
+                <Bar dataKey="value" name="Mesaj Sayısı" radius={[4, 4, 0, 0]}>
                   {emotionalCategoriesData.map((entry, index) => (
                     <Cell 
                       key={`cell-${index}`} 
-                      fill={CHART_COLORS.primary[index % CHART_COLORS.primary.length]} 
+                      fill={`url(#barGradient${index})`}
                     />
                   ))}
                 </Bar>
+                <defs>
+                  {emotionalCategoriesData.map((entry, index) => (
+                    <linearGradient key={index} id={`barGradient${index}`} x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor={CHART_COLORS.primary[index % CHART_COLORS.primary.length]} />
+                      <stop offset="100%" stopColor={CHART_COLORS.primary[index % CHART_COLORS.primary.length] + '80'} />
+                    </linearGradient>
+                  ))}
+                </defs>
               </BarChart>
             </ResponsiveContainer>
           ) : (
             <div className="flex items-center justify-center h-full">
-              <p className="text-gray-500 dark:text-gray-400">
+              <p className="text-white/70">
                 Duygusal kategori verisi bulunamadı.
               </p>
             </div>
           )}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
-          <h4 className="text-lg font-medium text-gray-800 dark:text-gray-100 mb-3">
-            Kişilerin Duygusal Tonu
-          </h4>
+      {/* Analysis Cards */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <motion.div 
+          className="backdrop-blur-md bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-3xl shadow-2xl p-8"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <div className="flex items-center mb-6">
+            <div className="w-10 h-10 bg-gradient-to-r from-violet-400 to-purple-500 rounded-xl flex items-center justify-center mr-3">
+              <span className="text-xl">👥</span>
+            </div>
+            <h4 className="text-2xl font-bold text-white">
+              Kişilerin Duygusal Tonu
+            </h4>
+          </div>
           
-          <div className="space-y-3">
-            {Object.entries(sentimentAnalysis.sentimentByUser).map(([user, data]) => {
+          <div className="space-y-4">
+            {Object.entries(sentimentAnalysis.sentimentByUser).map(([user, data], index) => {
               const userSentimentColor = CHART_COLORS.sentiment[data.sentiment];
               
               return (
-                <div key={user} className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600 dark:text-gray-300">{user}</span>
-                  <div className="flex items-center">
-                    <div 
-                      className="w-3 h-3 rounded-full mr-2"
-                      style={{ backgroundColor: userSentimentColor }}
-                    ></div>
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                      {SENTIMENT_LABELS_TR[data.sentiment]}
-                    </span>
-                    {data.dominantEmotion && (
-                      <span className="text-xs ml-2 text-gray-500 dark:text-gray-400">
-                        ({data.dominantEmotion})
+                <motion.div 
+                  key={user} 
+                  className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition-all duration-300"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 0.1 * index }}
+                  whileHover={{ scale: 1.02, y: -2 }}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-lg font-medium text-white">{user}</span>
+                    <div className="flex items-center">
+                      <motion.div 
+                        className="w-4 h-4 rounded-full mr-3"
+                        style={{ backgroundColor: userSentimentColor }}
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ duration: 0.3, delay: 0.2 * index }}
+                      />
+                      <span className="text-sm font-medium text-white/90">
+                        {SENTIMENT_LABELS_TR[data.sentiment]}
                       </span>
-                    )}
+                      {data.dominantEmotion && (
+                        <span className="text-xs ml-2 px-2 py-1 bg-white/10 rounded-lg text-white/70">
+                          {data.dominantEmotion}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
-        </div>
+        </motion.div>
         
-        <div className="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
-          <h4 className="text-lg font-medium text-gray-800 dark:text-gray-100 mb-3">
-            Duygusal Analiz Özeti
-          </h4>
+        <motion.div 
+          className="backdrop-blur-md bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-3xl shadow-2xl p-8"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
+          <div className="flex items-center mb-6">
+            <div className="w-10 h-10 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center mr-3">
+              <span className="text-xl">📊</span>
+            </div>
+            <h4 className="text-2xl font-bold text-white">
+              Duygusal Analiz Özeti
+            </h4>
+          </div>
           
-          <p className="text-gray-600 dark:text-gray-300 text-sm">
-            Bu sohbetin genel tonu <span className="font-medium">{SENTIMENT_LABELS_TR[overallSentiment]}</span>.
-            {overallSentiment === 'positive' && (
-              ' Konuşmalarınız genel olarak pozitif ve olumlu bir havaya sahip.'
+          <div className="space-y-4">
+            <motion.p 
+              className="text-white/80 leading-relaxed"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
+              Bu sohbetin genel tonu <span className="font-bold text-white px-2 py-1 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg">{SENTIMENT_LABELS_TR[overallSentiment]}</span>.
+              {overallSentiment === 'positive' && (
+                ' Konuşmalarınız genel olarak pozitif ve olumlu bir havaya sahip.'
+              )}
+              {overallSentiment === 'negative' && (
+                ' Konuşmalarınız genel olarak negatif veya eleştirel bir ton taşıyor.'
+              )}
+              {overallSentiment === 'neutral' && (
+                ' Konuşmalarınız genel olarak dengeli ve nötr bir ton taşıyor.'
+              )}
+            </motion.p>
+            
+            <motion.p 
+              className="text-white/80 leading-relaxed"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+            >
+              En mutlu gününüz <span className="font-medium text-green-300">{sentimentAnalysis.happiest.date ? format(new Date(sentimentAnalysis.happiest.date), 'd MMMM yyyy', { locale: tr }) : 'Veri yok'}</span>,
+              en üzgün gününüz ise <span className="font-medium text-red-300">{sentimentAnalysis.saddest.date ? format(new Date(sentimentAnalysis.saddest.date), 'd MMMM yyyy', { locale: tr }) : 'Veri yok'}</span>.
+            </motion.p>
+            
+            <motion.p 
+              className="text-white/80 leading-relaxed"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+            >
+              En baskın duygu ise <span className="font-medium text-purple-300">{sentimentAnalysis.dominantEmotion || 'Veri yok'}</span>.
+            </motion.p>
+            
+            {Object.entries(sentimentAnalysis.sentimentByUser).some(([_, data]) => data.sentiment === 'positive') && (
+              <motion.p 
+                className="text-white/80 leading-relaxed"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.9 }}
+              >
+                <span className="font-medium text-yellow-300">
+                  {Object.entries(sentimentAnalysis.sentimentByUser)
+                    .filter(([_, data]) => data.sentiment === 'positive')
+                    .map(([user]) => user)
+                    .join(' ve ')}
+                </span> genellikle daha pozitif mesajlar gönderiyor.
+              </motion.p>
             )}
-            {overallSentiment === 'negative' && (
-              ' Konuşmalarınız genel olarak negatif veya eleştirel bir ton taşıyor.'
-            )}
-            {overallSentiment === 'neutral' && (
-              ' Konuşmalarınız genel olarak dengeli ve nötr bir ton taşıyor.'
-            )}
-          </p>
-          
-          <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">
-            En mutlu gününüz <span className="font-medium">{sentimentAnalysis.happiest.date ? format(new Date(sentimentAnalysis.happiest.date), 'd MMMM yyyy', { locale: tr }) : 'Veri yok'}</span>,
-            en üzgün gününüz ise <span className="font-medium">{sentimentAnalysis.saddest.date ? format(new Date(sentimentAnalysis.saddest.date), 'd MMMM yyyy', { locale: tr }) : 'Veri yok'}</span>.
-          </p>
-          
-          <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">
-            En baskın duygu ise <span className="font-medium">{sentimentAnalysis.dominantEmotion || 'Veri yok'}</span>.
-          </p>
-          
-          {Object.entries(sentimentAnalysis.sentimentByUser).some(([_, data]) => data.sentiment === 'positive') && (
-            <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">
-              {Object.entries(sentimentAnalysis.sentimentByUser)
-                .filter(([_, data]) => data.sentiment === 'positive')
-                .map(([user]) => user)
-                .join(' ve ')} genellikle daha pozitif mesajlar gönderiyor.
-            </p>
-          )}
-        </div>
+          </div>
+        </motion.div>
       </div>
       
       {/* Most Intense Messages */}
       {sentimentAnalysis.mostIntenseMessages.length > 0 && (
-        <div className="mt-6 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
-          <h4 className="text-lg font-medium text-gray-800 dark:text-gray-100 mb-3">
-            En Yoğun Duygusal Mesajlar
-          </h4>
+        <motion.div 
+          className="backdrop-blur-md bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-3xl shadow-2xl p-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+        >
+          <div className="flex items-center mb-6">
+            <div className="w-10 h-10 bg-gradient-to-r from-red-400 to-pink-500 rounded-xl flex items-center justify-center mr-3">
+              <span className="text-xl">🔥</span>
+            </div>
+            <h4 className="text-2xl font-bold text-white">
+              En Yoğun Duygusal Mesajlar
+            </h4>
+          </div>
           
-          <div className="space-y-2">
+          <div className="space-y-4">
             {sentimentAnalysis.mostIntenseMessages.map((msg, index) => {
               // Safely access message content with error handling
               const message = analysis.messages[msg.messageId];
@@ -378,34 +562,51 @@ const SentimentAnalysis = ({ analysis }: SentimentAnalysisProps) => {
               const timestamp = message ? message.timestamp : new Date();
               
               return (
-                <div key={index} className="border-b border-gray-200 dark:border-gray-600 pb-2 last:border-0 last:pb-0">
-                  <div className="flex justify-between">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <motion.div 
+                  key={index} 
+                  className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: 0.1 * index }}
+                  whileHover={{ scale: 1.02, x: 5 }}
+                >
+                  <div className="flex justify-between items-start mb-3">
+                    <span className="text-lg font-medium text-white">
                       {sender}
                     </span>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                    <span className="text-sm text-white/60">
                       {format(new Date(timestamp), 'HH:mm', { locale: tr })}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  <p className="text-white/80 mb-4 leading-relaxed">
                     {messageContent.substring(0, 100)}
                     {messageContent.length > 100 ? '...' : ''}
                   </p>
-                  <div className="flex items-center mt-1">
-                    <span className="text-xs px-2 py-1 rounded bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300">
+                  <div className="flex items-center space-x-3">
+                    <motion.span 
+                      className="text-xs px-3 py-2 rounded-xl bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-400/30 text-orange-200 font-medium"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 0.3, delay: 0.2 * index }}
+                    >
                       Yoğunluk: {Math.round(msg.intensity * 100)}%
-                    </span>
+                    </motion.span>
                     {msg.emotionalCategory && (
-                      <span className="text-xs px-2 py-1 rounded bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 ml-2">
+                      <motion.span 
+                        className="text-xs px-3 py-2 rounded-xl bg-gradient-to-r from-purple-500/20 to-indigo-500/20 border border-purple-400/30 text-purple-200 font-medium"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ duration: 0.3, delay: 0.2 * index + 0.1 }}
+                      >
                         {msg.emotionalCategory}
-                      </span>
+                      </motion.span>
                     )}
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
-        </div>
+        </motion.div>
       )}
     </div>
   );

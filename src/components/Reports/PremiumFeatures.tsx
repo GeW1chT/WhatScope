@@ -6,6 +6,7 @@ import { tr } from 'date-fns/locale';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 import { ChatAnalysis } from '@/types/chat';
 import { CHART_COLORS } from '@/lib/constants';
+import { motion } from 'framer-motion';
 
 interface PremiumFeaturesProps {
   analysis: ChatAnalysis;
@@ -20,14 +21,24 @@ const PremiumFeatures = ({ analysis }: PremiumFeaturesProps) => {
   
   if (!analysis.premiumFeatures) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
-        <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
-          Premium Özellikler
-        </h3>
-        <p className="text-gray-600 dark:text-gray-300">
+      <motion.div 
+        className="backdrop-blur-md bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-3xl shadow-2xl p-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="flex items-center mb-6">
+          <div className="w-12 h-12 bg-gradient-to-r from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center mr-4">
+            <span className="text-2xl">💎</span>
+          </div>
+          <h3 className="text-3xl font-bold text-white">
+            Premium Özellikler
+          </h3>
+        </div>
+        <p className="text-white/70">
           Premium özellikler analizi verisi bulunamadı.
         </p>
-      </div>
+      </motion.div>
     );
   }
   
@@ -90,375 +101,450 @@ const PremiumFeatures = ({ analysis }: PremiumFeaturesProps) => {
   };
   
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
-      <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6">
-        Premium Özellikler
-      </h3>
-      
-      <div className="flex flex-wrap gap-2 mb-6 border-b border-gray-200 dark:border-gray-700">
-        <button
-          onClick={() => setActiveTab('wordCloud')}
-          className={`px-4 py-2 text-sm font-medium rounded-t-lg ${
-            activeTab === 'wordCloud'
-              ? 'text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400'
-              : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
-          }`}
-        >
-          Kelime Bulutu
-        </button>
-        
-        <button
-          onClick={() => setActiveTab('activeDays')}
-          className={`px-4 py-2 text-sm font-medium rounded-t-lg ${
-            activeTab === 'activeDays'
-              ? 'text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400'
-              : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
-          }`}
-        >
-          En Aktif Günler
-        </button>
-        
-        <button
-          onClick={() => setActiveTab('mediaPatterns')}
-          className={`px-4 py-2 text-sm font-medium rounded-t-lg ${
-            activeTab === 'mediaPatterns'
-              ? 'text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400'
-              : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
-          }`}
-        >
-          Medya Paylaşım Desenleri
-        </button>
-        
-        <button
-          onClick={() => setActiveTab('topics')}
-          className={`px-4 py-2 text-sm font-medium rounded-t-lg ${
-            activeTab === 'topics'
-              ? 'text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400'
-              : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
-          }`}
-        >
-          Konuşma Konuları
-        </button>
-        
-        <button
-          onClick={() => setActiveTab('customRange')}
-          className={`px-4 py-2 text-sm font-medium rounded-t-lg ${
-            activeTab === 'customRange'
-              ? 'text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400'
-              : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
-          }`}
-        >
-          Özel Tarih Aralığı
-        </button>
-      </div>
-      
-      {/* Word Cloud Tab */}
-      {activeTab === 'wordCloud' && (
-        <div>
-          <h4 className="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4">
-            En Sık Kullanılan Kelimeler
-          </h4>
-          
-          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 min-h-[400px] flex flex-wrap items-center justify-center gap-2">
-            {wordCloudData.length > 0 ? (
-              wordCloudData.map((word, index) => (
-                <span
-                  key={index}
-                  className="inline-block px-3 py-1 rounded-full"
-                  style={{
-                    fontSize: `${Math.max(12, Math.min(32, word.value * 2))}px`,
-                    backgroundColor: CHART_COLORS.primary[index % CHART_COLORS.primary.length] + '20',
-                    color: CHART_COLORS.primary[index % CHART_COLORS.primary.length],
-                    fontWeight: word.value > 10 ? 'bold' : 'normal'
-                  }}
-                >
-                  {word.text} ({word.value})
-                </span>
-              ))
-            ) : (
-              <p className="text-gray-500 dark:text-gray-400">
-                Kelime verisi bulunamadı.
-              </p>
-            )}
+    <div className="space-y-8">
+      {/* Main Header */}
+      <motion.div 
+        className="backdrop-blur-md bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-3xl shadow-2xl p-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="flex items-center mb-8">
+          <div className="w-12 h-12 bg-gradient-to-r from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center mr-4">
+            <span className="text-2xl">💎</span>
           </div>
+          <h3 className="text-3xl font-bold text-white">
+            Premium Özellikler
+          </h3>
         </div>
-      )}
-      
-      {/* Most Active Days Tab */}
-      {activeTab === 'activeDays' && (
-        <div>
-          <h4 className="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4">
+        
+        {/* Tab Navigation */}
+        <div className="flex flex-wrap gap-2 mb-8 border-b border-white/20">
+          <button
+            onClick={() => setActiveTab('wordCloud')}
+            className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-all duration-300 ${
+              activeTab === 'wordCloud'
+                ? 'text-white border-b-2 border-purple-400 bg-purple-500/10'
+                : 'text-white/70 hover:text-white hover:bg-white/10'
+            }`}
+          >
+            Kelime Bulutu
+          </button>
+          
+          <button
+            onClick={() => setActiveTab('activeDays')}
+            className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-all duration-300 ${
+              activeTab === 'activeDays'
+                ? 'text-white border-b-2 border-blue-400 bg-blue-500/10'
+                : 'text-white/70 hover:text-white hover:bg-white/10'
+            }`}
+          >
             En Aktif Günler
-          </h4>
+          </button>
           
-          <div className="h-80">
-            {activeDaysData.length > 0 ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={activeDaysData}
-                  margin={{ top: 20, right: 30, left: 20, bottom: 70 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis 
-                    dataKey="name" 
-                    tick={{ fill: '#6b7280' }}
-                    angle={-45}
-                    textAnchor="end"
-                    height={60}
-                  />
-                  <YAxis 
-                    tick={{ fill: '#6b7280' }}
-                  />
-                  <Tooltip
-                    formatter={(value) => [value, 'Mesaj']}
-                    contentStyle={{
-                      backgroundColor: '#ffffff',
-                      borderColor: '#e5e7eb',
-                      borderRadius: '0.5rem',
-                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
-                    }}
-                  />
-                  <Bar dataKey="messageCount" name="Mesaj Sayısı" fill={CHART_COLORS.primary[0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            ) : (
-              <div className="flex items-center justify-center h-full">
-                <p className="text-gray-500 dark:text-gray-400">
-                  Aktif gün verisi bulunamadı.
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-      
-      {/* Media Patterns Tab */}
-      {activeTab === 'mediaPatterns' && (
-        <div>
-          <h4 className="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4">
+          <button
+            onClick={() => setActiveTab('mediaPatterns')}
+            className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-all duration-300 ${
+              activeTab === 'mediaPatterns'
+                ? 'text-white border-b-2 border-green-400 bg-green-500/10'
+                : 'text-white/70 hover:text-white hover:bg-white/10'
+            }`}
+          >
             Medya Paylaşım Desenleri
-          </h4>
+          </button>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="h-64">
-              {mediaPatternsData.length > 0 ? (
+          <button
+            onClick={() => setActiveTab('topics')}
+            className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-all duration-300 ${
+              activeTab === 'topics'
+                ? 'text-white border-b-2 border-orange-400 bg-orange-500/10'
+                : 'text-white/70 hover:text-white hover:bg-white/10'
+            }`}
+          >
+            Konuşma Konuları
+          </button>
+          
+          <button
+            onClick={() => setActiveTab('customRange')}
+            className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-all duration-300 ${
+              activeTab === 'customRange'
+                ? 'text-white border-b-2 border-indigo-400 bg-indigo-500/10'
+                : 'text-white/70 hover:text-white hover:bg-white/10'
+            }`}
+          >
+            Özel Tarih Aralığı
+          </button>
+        </div>
+        
+        {/* Word Cloud Tab */}
+        {activeTab === 'wordCloud' && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <h4 className="text-2xl font-bold text-white mb-6">
+              En Sık Kullanılan Kelimeler
+            </h4>
+            
+            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6 min-h-[400px] flex flex-wrap items-center justify-center gap-3">
+              {wordCloudData.length > 0 ? (
+                wordCloudData.map((word, index) => (
+                  <motion.span
+                    key={index}
+                    className="inline-block px-4 py-2 rounded-full backdrop-blur-sm bg-white/10 border border-white/20"
+                    style={{
+                      fontSize: `${Math.max(14, Math.min(36, word.value * 2))}px`,
+                      backgroundColor: CHART_COLORS.primary[index % CHART_COLORS.primary.length] + '20',
+                      color: CHART_COLORS.primary[index % CHART_COLORS.primary.length],
+                      fontWeight: word.value > 10 ? 'bold' : 'normal'
+                    }}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: 0.02 * index }}
+                    whileHover={{ scale: 1.1, y: -5 }}
+                  >
+                    {word.text} ({word.value})
+                  </motion.span>
+                ))
+              ) : (
+                <p className="text-white/70">
+                  Kelime verisi bulunamadı.
+                </p>
+              )}
+            </div>
+          </motion.div>
+        )}
+        
+        {/* Most Active Days Tab */}
+        {activeTab === 'activeDays' && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <h4 className="text-2xl font-bold text-white mb-6">
+              En Aktif Günler
+            </h4>
+            
+            <div className="h-80 backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+              {activeDaysData.length > 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
-                    data={mediaPatternsData}
-                    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                    data={activeDaysData}
+                    margin={{ top: 20, right: 30, left: 20, bottom: 70 }}
                   >
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                     <XAxis 
                       dataKey="name" 
-                      tick={{ fill: '#6b7280' }}
+                      tick={{ fill: 'rgba(255,255,255,0.7)' }}
+                      angle={-45}
+                      textAnchor="end"
+                      height={60}
                     />
                     <YAxis 
-                      tick={{ fill: '#6b7280' }}
-                      tickFormatter={(value) => value.toFixed(1)}
+                      tick={{ fill: 'rgba(255,255,255,0.7)' }}
                     />
                     <Tooltip
-                      formatter={(value) => [parseFloat(value.toString()).toFixed(2), 'Ortalama Günlük']}
+                      formatter={(value) => [value, 'Mesaj']}
                       contentStyle={{
-                        backgroundColor: '#ffffff',
-                        borderColor: '#e5e7eb',
-                        borderRadius: '0.5rem',
-                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        backdropFilter: 'blur(12px)',
+                        borderColor: 'rgba(255,255,255,0.2)',
+                        borderRadius: '12px',
+                        border: '1px solid rgba(255,255,255,0.2)',
+                        color: 'white'
                       }}
                     />
-                    <Bar dataKey="dailyAverage" name="Ortalama Günlük" fill={CHART_COLORS.primary[1]} />
+                    <Bar dataKey="messageCount" name="Mesaj Sayısı" fill={CHART_COLORS.primary[0]} radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               ) : (
                 <div className="flex items-center justify-center h-full">
-                  <p className="text-gray-500 dark:text-gray-400">
-                    Medya paylaşım deseni verisi bulunamadı.
+                  <p className="text-white/70">
+                    Aktif gün verisi bulunamadı.
                   </p>
                 </div>
               )}
             </div>
+          </motion.div>
+        )}
+        
+        {/* Media Patterns Tab */}
+        {activeTab === 'mediaPatterns' && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <h4 className="text-2xl font-bold text-white mb-6">
+              Medya Paylaşım Desenleri
+            </h4>
             
-            <div>
-              <h5 className="text-md font-medium text-gray-700 dark:text-gray-300 mb-3">
-                En Yoğun Medya Paylaşımı Günleri
-              </h5>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="h-64 backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+                {mediaPatternsData.length > 0 ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      data={mediaPatternsData}
+                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                      <XAxis 
+                        dataKey="name" 
+                        tick={{ fill: 'rgba(255,255,255,0.7)' }}
+                      />
+                      <YAxis 
+                        tick={{ fill: 'rgba(255,255,255,0.7)' }}
+                        tickFormatter={(value) => value.toFixed(1)}
+                      />
+                      <Tooltip
+                        formatter={(value) => [parseFloat(value.toString()).toFixed(2), 'Ortalama Günlük']}
+                        contentStyle={{
+                          backgroundColor: 'rgba(0,0,0,0.8)',
+                          backdropFilter: 'blur(12px)',
+                          borderColor: 'rgba(255,255,255,0.2)',
+                          borderRadius: '12px',
+                          border: '1px solid rgba(255,255,255,0.2)',
+                          color: 'white'
+                        }}
+                      />
+                      <Bar dataKey="dailyAverage" name="Ortalama Günlük" fill={CHART_COLORS.primary[1]} radius={[4, 4, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="flex items-center justify-center h-full">
+                    <p className="text-white/70">
+                      Medya paylaşım deseni verisi bulunamadı.
+                    </p>
+                  </div>
+                )}
+              </div>
               
-              <div className="space-y-3">
-                {mediaPatternsData.map((pattern, index) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600 dark:text-gray-300">{pattern.name}</span>
-                    <div className="text-right">
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                        {pattern.peakCount} medya
-                      </span>
-                      <span className="text-xs block text-gray-500 dark:text-gray-400">
-                        {pattern.peakDay ? format(new Date(pattern.peakDay), 'd MMM yyyy', { locale: tr }) : 'Veri yok'}
-                      </span>
+              <div>
+                <h5 className="text-xl font-bold text-white mb-4">
+                  En Yoğun Medya Paylaşımı Günleri
+                </h5>
+                
+                <div className="space-y-4">
+                  {mediaPatternsData.map((pattern, index) => (
+                    <motion.div 
+                      key={index} 
+                      className="flex items-center justify-between backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-4"
+                      whileHover={{ scale: 1.02 }}
+                    >
+                      <span className="text-white/90">{pattern.name}</span>
+                      <div className="text-right">
+                        <span className="font-medium text-white">
+                          {pattern.peakCount} medya
+                        </span>
+                        <span className="text-xs block text-white/60">
+                          {pattern.peakDay ? format(new Date(pattern.peakDay), 'd MMM yyyy', { locale: tr }) : 'Veri yok'}
+                        </span>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+        
+        {/* Conversation Topics Tab */}
+        {activeTab === 'topics' && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <h4 className="text-2xl font-bold text-white mb-6">
+              Konuşma Konuları
+            </h4>
+            
+            <div className="h-80 backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+              {topicsData.length > 0 ? (
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={topicsData}
+                    layout="vertical"
+                    margin={{ top: 5, right: 30, left: 100, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                    <XAxis 
+                      type="number" 
+                      tick={{ fill: 'rgba(255,255,255,0.7)' }}
+                    />
+                    <YAxis 
+                      dataKey="name" 
+                      type="category" 
+                      tick={{ fill: 'rgba(255,255,255,0.7)' }}
+                      width={90}
+                    />
+                    <Tooltip
+                      formatter={(value) => [value, 'Kullanım']}
+                      contentStyle={{
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        backdropFilter: 'blur(12px)',
+                        borderColor: 'rgba(255,255,255,0.2)',
+                        borderRadius: '12px',
+                        border: '1px solid rgba(255,255,255,0.2)',
+                        color: 'white'
+                      }}
+                    />
+                    <Bar dataKey="frequency" name="Kullanım Sayısı" fill={CHART_COLORS.primary[2]} radius={[0, 4, 4, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              ) : (
+                <div className="flex items-center justify-center h-full">
+                  <p className="text-white/70">
+                    Konuşma konusu verisi bulunamadı.
+                  </p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+        
+        {/* Custom Date Range Tab */}
+        {activeTab === 'customRange' && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <h4 className="text-2xl font-bold text-white mb-6">
+              Özel Tarih Aralığı Analizi
+            </h4>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div>
+                <label className="block text-sm font-medium text-white/80 mb-2">
+                  Başlangıç Tarihi
+                </label>
+                <input
+                  type="date"
+                  value={customStartDate}
+                  onChange={(e) => setCustomStartDate(e.target.value)}
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl backdrop-blur-sm text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-white/80 mb-2">
+                  Bitiş Tarihi
+                </label>
+                <input
+                  type="date"
+                  value={customEndDate}
+                  onChange={(e) => setCustomEndDate(e.target.value)}
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl backdrop-blur-sm text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                />
+              </div>
+              
+              <div className="flex items-end">
+                <motion.button
+                  onClick={handleCustomAnalysis}
+                  className="w-full px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Analiz Et
+                </motion.button>
+              </div>
+            </div>
+            
+            {customAnalysis ? (
+              <motion.div 
+                className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <h5 className="text-xl font-bold text-white mb-4">
+                  {format(customAnalysis.dateRange.start, 'd MMM yyyy', { locale: tr })} - {format(customAnalysis.dateRange.end, 'd MMM yyyy', { locale: tr })} Aralığı Analizi
+                </h5>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                  <motion.div 
+                    className="backdrop-blur-sm bg-gradient-to-br from-blue-500/10 to-indigo-600/10 border border-blue-400/20 rounded-xl p-4"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <p className="text-sm text-blue-300 font-medium">Toplam Mesaj</p>
+                    <p className="text-2xl font-bold text-white">{customAnalysis.totalMessages}</p>
+                  </motion.div>
+                  
+                  <motion.div 
+                    className="backdrop-blur-sm bg-gradient-to-br from-green-500/10 to-emerald-600/10 border border-green-400/20 rounded-xl p-4"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <p className="text-sm text-green-300 font-medium">Katılımcılar</p>
+                    <p className="text-2xl font-bold text-white">{customAnalysis.participants.length}</p>
+                  </motion.div>
+                  
+                  <motion.div 
+                    className="backdrop-blur-sm bg-gradient-to-br from-purple-500/10 to-pink-600/10 border border-purple-400/20 rounded-xl p-4"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <p className="text-sm text-purple-300 font-medium">En Aktif Gün</p>
+                    <p className="text-lg font-bold text-white">
+                      {customAnalysis.timeStats.mostActiveDate 
+                        ? format(new Date(customAnalysis.timeStats.mostActiveDate), 'd MMM yyyy', { locale: tr })
+                        : 'Veri yok'}
+                    </p>
+                  </motion.div>
+                </div>
+                
+                {customAnalysis.messageStats.length > 0 && (
+                  <div>
+                    <h6 className="text-lg font-bold text-white mb-4">
+                      Katılımcı İstatistikleri
+                    </h6>
+                    
+                    <div className="space-y-3">
+                      {customAnalysis.messageStats.map((stat, index) => (
+                        <motion.div 
+                          key={index} 
+                          className="flex justify-between items-center backdrop-blur-sm bg-white/5 border border-white/10 rounded-xl p-4"
+                          whileHover={{ scale: 1.02 }}
+                        >
+                          <span className="text-white/90">{stat.sender}</span>
+                          <div className="flex items-center">
+                            <span className="font-medium text-white mr-3">
+                              {stat.count} mesaj
+                            </span>
+                            <span className="text-sm text-white/60">
+                              ({stat.averageLength.toFixed(0)} karakter)
+                            </span>
+                          </div>
+                        </motion.div>
+                      ))}
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-      
-      {/* Conversation Topics Tab */}
-      {activeTab === 'topics' && (
-        <div>
-          <h4 className="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4">
-            Konuşma Konuları
-          </h4>
-          
-          <div className="h-80">
-            {topicsData.length > 0 ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={topicsData}
-                  layout="vertical"
-                  margin={{ top: 5, right: 30, left: 100, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis 
-                    type="number" 
-                    tick={{ fill: '#6b7280' }}
-                  />
-                  <YAxis 
-                    dataKey="name" 
-                    type="category" 
-                    tick={{ fill: '#6b7280' }}
-                    width={90}
-                  />
-                  <Tooltip
-                    formatter={(value) => [value, 'Kullanım']}
-                    contentStyle={{
-                      backgroundColor: '#ffffff',
-                      borderColor: '#e5e7eb',
-                      borderRadius: '0.5rem',
-                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
-                    }}
-                  />
-                  <Bar dataKey="frequency" name="Kullanım Sayısı" fill={CHART_COLORS.primary[2]} />
-                </BarChart>
-              </ResponsiveContainer>
+                )}
+              </motion.div>
             ) : (
-              <div className="flex items-center justify-center h-full">
-                <p className="text-gray-500 dark:text-gray-400">
-                  Konuşma konusu verisi bulunamadı.
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-      
-      {/* Custom Date Range Tab */}
-      {activeTab === 'customRange' && (
-        <div>
-          <h4 className="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4">
-            Özel Tarih Aralığı Analizi
-          </h4>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Başlangıç Tarihi
-              </label>
-              <input
-                type="date"
-                value={customStartDate}
-                onChange={(e) => setCustomStartDate(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Bitiş Tarihi
-              </label>
-              <input
-                type="date"
-                value={customEndDate}
-                onChange={(e) => setCustomEndDate(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
-              />
-            </div>
-            
-            <div className="flex items-end">
-              <button
-                onClick={handleCustomAnalysis}
-                className="w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md shadow-sm transition-colors"
+              <motion.div 
+                className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-12 text-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
               >
-                Analiz Et
-              </button>
-            </div>
-          </div>
-          
-          {customAnalysis ? (
-            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-              <h5 className="text-md font-medium text-gray-800 dark:text-gray-100 mb-3">
-                {format(customAnalysis.dateRange.start, 'd MMM yyyy', { locale: tr })} - {format(customAnalysis.dateRange.end, 'd MMM yyyy', { locale: tr })} Aralığı Analizi
-              </h5>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-white dark:bg-gray-600 p-3 rounded-lg">
-                  <p className="text-sm text-gray-500 dark:text-gray-300">Toplam Mesaj</p>
-                  <p className="text-xl font-bold text-gray-800 dark:text-gray-100">{customAnalysis.totalMessages}</p>
+                <div className="w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
                 </div>
-                
-                <div className="bg-white dark:bg-gray-600 p-3 rounded-lg">
-                  <p className="text-sm text-gray-500 dark:text-gray-300">Katılımcılar</p>
-                  <p className="text-xl font-bold text-gray-800 dark:text-gray-100">{customAnalysis.participants.length}</p>
-                </div>
-                
-                <div className="bg-white dark:bg-gray-600 p-3 rounded-lg">
-                  <p className="text-sm text-gray-500 dark:text-gray-300">En Aktif Gün</p>
-                  <p className="text-xl font-bold text-gray-800 dark:text-gray-100">
-                    {customAnalysis.timeStats.mostActiveDate 
-                      ? format(new Date(customAnalysis.timeStats.mostActiveDate), 'd MMM yyyy', { locale: tr })
-                      : 'Veri yok'}
-                  </p>
-                </div>
-              </div>
-              
-              {customAnalysis.messageStats.length > 0 && (
-                <div className="mt-4">
-                  <h6 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Katılımcı İstatistikleri
-                  </h6>
-                  
-                  <div className="space-y-2">
-                    {customAnalysis.messageStats.map((stat, index) => (
-                      <div key={index} className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600 dark:text-gray-300">{stat.sender}</span>
-                        <div className="flex items-center">
-                          <span className="text-sm font-medium text-gray-800 dark:text-gray-100 mr-2">
-                            {stat.count} mesaj
-                          </span>
-                          <span className="text-xs text-gray-500 dark:text-gray-400">
-                            ({stat.averageLength.toFixed(0)} karakter)
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-8 text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <h5 className="mt-4 text-lg font-medium text-gray-800 dark:text-gray-100">
-                Özel Tarih Aralığı Analizi
-              </h5>
-              <p className="mt-2 text-gray-600 dark:text-gray-300">
-                Belirli bir tarih aralığı için detaylı analiz yapmak üzere başlangıç ve bitiş tarihlerini seçin.
-              </p>
-            </div>
-          )}
-        </div>
-      )}
+                <h5 className="text-2xl font-bold text-white mb-3">
+                  Özel Tarih Aralığı Analizi
+                </h5>
+                <p className="text-white/70 max-w-md mx-auto">
+                  Belirli bir tarih aralığı için detaylı analiz yapmak üzere başlangıç ve bitiş tarihlerini seçin.
+                </p>
+              </motion.div>
+            )}
+          </motion.div>
+        )}
+      </motion.div>
     </div>
   );
 };
