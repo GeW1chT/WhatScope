@@ -630,7 +630,7 @@ const RelationshipAnalysis = ({ analysis }: RelationshipAnalysisProps) => {
               
               <Card>
                 <CardHeader>
-                  <CardTitle>Yemek Obsesyonu 🍕</CardTitle>
+                  <CardTitle>Yemek Obsessionu 🍕</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <h4 className="font-semibold">Yemek Aşığı: {relationshipAnalysis.funnyStats.foodLover || 'Bilinmiyor'}</h4>
@@ -764,70 +764,169 @@ const RelationshipAnalysis = ({ analysis }: RelationshipAnalysisProps) => {
           
           <TabsContent value="fun-titles" className="mt-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>WhatsApp’ın Shakespeare’i 📜</CardTitle>
-                  <CardDescription>En uzun mesajları yazan kişi</CardDescription>
+              <Card className="overflow-hidden border-0 shadow-lg">
+                <CardHeader className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+                  <div className="flex items-center">
+                    <svg className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <CardTitle>Emoji Sanatçısı 🎨</CardTitle>
+                  </div>
+                  <CardDescription className="text-pink-100">
+                    En çeşitli emoji kullanan
+                  </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg">
-                    <h3 className="text-xl font-bold text-indigo-700 dark:text-indigo-300">
-                      {relationshipAnalysis.funnyTitles?.shakespeareTitle || 'Bilinmiyor'}
-                    </h3>
-                    <p className="mt-2 text-gray-600 dark:text-gray-400">
-                      Ortalama {relationshipAnalysis.talkativenessAnalysis.averageMessageLength?.[relationshipAnalysis.funnyTitles?.shakespeareTitle] ? Math.round(relationshipAnalysis.talkativenessAnalysis.averageMessageLength[relationshipAnalysis.funnyTitles.shakespeareTitle]) : 0} karakterlik mesajlar yazıyor. 
-                      {relationshipAnalysis.talkativenessAnalysis.longestMessage ? ` En uzun mesajı ${relationshipAnalysis.talkativenessAnalysis.longestMessage.length} karakter uzunluğunda!` : ''}
+                <CardContent className="p-6">
+                  <div className="flex items-center mb-4">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/40 dark:to-pink-900/40 flex items-center justify-center mr-4">
+                      <svg className="h-8 w-8 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                        {relationshipAnalysis.funnyTitles?.emojiArtistTitle || 'Bilinmiyor'}
+                      </h3>
+                      <div className="mt-1 flex items-center">
+                        <svg className="h-4 w-4 text-purple-500 dark:text-purple-400 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          Emoji dünyasının kralı/kraliçesi
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 p-4 rounded-xl">
+                    <p className="text-gray-700 dark:text-gray-300">
+                      <span className="font-medium">Emoji ustası!</span> Sohbette en yaratıcı emoji kullanımına sahip. Kendini ifade etmek için emoji dünyasını kullanıyor!
                     </p>
                   </div>
                 </CardContent>
               </Card>
               
-              <Card>
-                <CardHeader>
-                  <CardTitle>Emoji Sanatçısı 🎨</CardTitle>
-                  <CardDescription>En çeşitli emoji kullanan</CardDescription>
+              <Card className="overflow-hidden border-0 shadow-lg">
+                <CardHeader className="bg-gradient-to-r from-indigo-500 to-blue-500 text-white">
+                  <div className="flex items-center">
+                    <svg className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                    <CardTitle>WhatsApp'ın Shakespeare'i 📜</CardTitle>
+                  </div>
+                  <CardDescription className="text-indigo-100">
+                    En uzun mesajları yazan kişi
+                  </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                    <h3 className="text-xl font-bold text-purple-700 dark:text-purple-300">
-                      {relationshipAnalysis.funnyTitles?.emojiArtistTitle || 'Bilinmiyor'}
-                    </h3>
-                    <p className="mt-2 text-gray-600 dark:text-gray-400">
-                      Sohbette en yaratıcı emoji kullanımına sahip. Kendini ifade etmek için emoji dünyasını kullanıyor!
+                <CardContent className="p-6">
+                  <div className="flex items-center mb-4">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-r from-indigo-100 to-blue-100 dark:from-indigo-900/40 dark:to-blue-900/40 flex items-center justify-center mr-4">
+                      <svg className="h-8 w-8 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                        {relationshipAnalysis.funnyTitles?.shakespeareTitle || 'Bilinmiyor'}
+                      </h3>
+                      <div className="mt-1 flex items-center">
+                        <svg className="h-4 w-4 text-indigo-500 dark:text-indigo-400 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          Ortalama {relationshipAnalysis.talkativenessAnalysis.averageMessageLength?.[relationshipAnalysis.funnyTitles?.shakespeareTitle] ? Math.round(relationshipAnalysis.talkativenessAnalysis.averageMessageLength[relationshipAnalysis.funnyTitles.shakespeareTitle]) : 0} karakter
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20 p-4 rounded-xl">
+                    <p className="text-gray-700 dark:text-gray-300">
+                      <span className="font-medium">Edebiyat dehası!</span> {relationshipAnalysis.talkativenessAnalysis.longestMessage ? `En uzun mesajı ${relationshipAnalysis.talkativenessAnalysis.longestMessage.length} karakter uzunluğunda!` : 'Uzun ve detaylı mesajlarıyla tanınıyor.'}
                     </p>
                   </div>
                 </CardContent>
               </Card>
               
-              <Card>
-                <CardHeader>
-                  <CardTitle>Sabır Testi ⏰</CardTitle>
-                  <CardDescription>En hızlı cevap veren</CardDescription>
+              <Card className="overflow-hidden border-0 shadow-lg">
+                <CardHeader className="bg-gradient-to-r from-green-500 to-teal-500 text-white">
+                  <div className="flex items-center">
+                    <svg className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <CardTitle>Sabır Testi ⏰</CardTitle>
+                  </div>
+                  <CardDescription className="text-green-100">
+                    En hızlı cevap veren
+                  </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                    <h3 className="text-xl font-bold text-green-700 dark:text-green-300">
-                      {relationshipAnalysis.funnyTitles?.patienceTestTitle || 'Bilinmiyor'}
-                    </h3>
-                    <p className="mt-2 text-gray-600 dark:text-gray-400">
-                      Şimşek hızında cevap veriyor! Mesajlarınıza hemen yanıt alabilirsiniz.
+                <CardContent className="p-6">
+                  <div className="flex items-center mb-4">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-r from-green-100 to-teal-100 dark:from-green-900/40 dark:to-teal-900/40 flex items-center justify-center mr-4">
+                      <svg className="h-8 w-8 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                        {relationshipAnalysis.funnyTitles?.patienceTestTitle || 'Bilinmiyor'}
+                      </h3>
+                      <div className="mt-1 flex items-center">
+                        <svg className="h-4 w-4 text-green-500 dark:text-green-400 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          Şimşek hızında yanıt
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 p-4 rounded-xl">
+                    <p className="text-gray-700 dark:text-gray-300">
+                      <span className="font-medium">Hız ustası!</span> Mesajlarınıza hemen yanıt alabilirsiniz. Beklemek yok!
                     </p>
                   </div>
                 </CardContent>
               </Card>
               
-              <Card>
-                <CardHeader>
-                  <CardTitle>Gece Mesaj Bombardımanı 🌙</CardTitle>
-                  <CardDescription>Gece 12'den sonra en aktif olan</CardDescription>
+              <Card className="overflow-hidden border-0 shadow-lg">
+                <CardHeader className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white">
+                  <div className="flex items-center">
+                    <svg className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                    <CardTitle>Gece Mesaj Bombardımanı 🌙</CardTitle>
+                  </div>
+                  <CardDescription className="text-blue-100">
+                    Gece 12'den sonra en aktif olan
+                  </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                    <h3 className="text-xl font-bold text-blue-700 dark:text-blue-300">
-                      {relationshipAnalysis.funnyTitles?.nightBomberTitle || 'Bilinmiyor'}
-                    </h3>
-                    <p className="mt-2 text-gray-600 dark:text-gray-400">
-                      Gece kuşu! Gece geç saatlerde aktif olup mesaj gönderiyor.
+                <CardContent className="p-6">
+                  <div className="flex items-center mb-4">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-100 to-cyan-100 dark:from-blue-900/40 dark:to-cyan-900/40 flex items-center justify-center mr-4">
+                      <svg className="h-8 w-8 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                        {relationshipAnalysis.funnyTitles?.nightBomberTitle || 'Bilinmiyor'}
+                      </h3>
+                      <div className="mt-1 flex items-center">
+                        <svg className="h-4 w-4 text-blue-500 dark:text-blue-400 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          Gece mesaj kralı
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 p-4 rounded-xl">
+                    <p className="text-gray-700 dark:text-gray-300">
+                      <span className="font-medium">Gece kuşu!</span> Gece geç saatlerde aktif olup mesaj gönderiyor. Uyku onun için sadece bir seçenek!
                     </p>
                   </div>
                 </CardContent>
@@ -837,42 +936,61 @@ const RelationshipAnalysis = ({ analysis }: RelationshipAnalysisProps) => {
           
           <TabsContent value="leaderboard" className="mt-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>_fake_ En Romantik Çiftler 🏆</CardTitle>
-                  <CardDescription>
+              <Card className="overflow-hidden border-0 shadow-lg">
+                <CardHeader className="bg-gradient-to-r from-pink-500 to-rose-500 text-white">
+                  <div className="flex items-center">
+                    <svg className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <CardTitle>En Romantik Çiftler 🏆</CardTitle>
+                  </div>
+                  <CardDescription className="text-pink-100">
                     Bu ay WhatsApp'ta en romantik çiftler
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
+                <CardContent className="p-0">
+                  <div className="divide-y divide-gray-100 dark:divide-gray-800">
                     {leaderboardData.romanticCouples.map((couple, index) => (
                       <div 
                         key={couple.name} 
-                        className={`flex items-center p-3 rounded-lg ${
-                          couple.name.includes('(Siz)') 
-                            ? 'bg-pink-100 dark:bg-pink-900/30 border-2 border-pink-500' 
-                            : 'bg-gray-50 dark:bg-gray-700'
-                        }`}
+                        className={`flex items-center p-4 ${couple.name.includes('(Siz)') 
+                          ? 'bg-gradient-to-r from-pink-50 to-rose-50 dark:from-pink-900/20 dark:to-rose-900/20 border-l-4 border-pink-500' 
+                          : ''}`}
                       >
-                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-pink-500 flex items-center justify-center text-white font-bold">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 flex items-center justify-center text-white font-bold shadow-md">
                           {index + 1}
                         </div>
-                        <div className="ml-3 flex-1">
-                          <h4 className="font-medium">{couple.name}</h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">{couple.city}</p>
+                        <div className="ml-4 flex-1">
+                          <h4 className="font-medium text-gray-900 dark:text-gray-100">{couple.name}</h4>
+                          <div className="flex items-center mt-1">
+                            <svg className="h-4 w-4 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 ml-1">{couple.city}</p>
+                          </div>
                         </div>
                         <div className="flex-shrink-0">
-                          <span className="bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200 px-2 py-1 rounded-full text-sm font-medium">
-                            %{couple.score} uyum
-                          </span>
+                          <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-pink-100 to-rose-100 dark:from-pink-900/30 dark:to-rose-900/30">
+                            <svg className="h-4 w-4 text-pink-600 dark:text-pink-400 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                            <span className="text-pink-700 dark:text-pink-300 font-medium">
+                              %{couple.score}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     ))}
                   </div>
                   
-                  <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                    <h4 className="font-semibold text-blue-700 dark:text-blue-300 mb-2">Nasıl Çalışır?</h4>
+                  <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 m-4 rounded-xl">
+                    <div className="flex items-center mb-2">
+                      <svg className="h-5 w-5 text-blue-600 dark:text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <h4 className="font-semibold text-blue-700 dark:text-blue-300">Nasıl Çalışır?</h4>
+                    </div>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
                       Bu liste, kullanıcıların romantik uyum skorlarına göre oluşturulmuş eğlenceli bir sıralamadır. 
                       Sizin skorunuz analiz sonuçlarınıza göre belirlenir ve uygunsa listeye eklenir.
@@ -881,42 +999,61 @@ const RelationshipAnalysis = ({ analysis }: RelationshipAnalysisProps) => {
                 </CardContent>
               </Card>
               
-              <Card>
-                <CardHeader>
-                  <CardTitle>_fake_ En Komik Kişiler 😂</CardTitle>
-                  <CardDescription>
+              <Card className="overflow-hidden border-0 shadow-lg">
+                <CardHeader className="bg-gradient-to-r from-amber-500 to-yellow-500 text-white">
+                  <div className="flex items-center">
+                    <svg className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <CardTitle>En Komik Kişiler 😂</CardTitle>
+                  </div>
+                  <CardDescription className="text-yellow-100">
                     Bu ay WhatsApp'ta en komik kullanıcılar
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
+                <CardContent className="p-0">
+                  <div className="divide-y divide-gray-100 dark:divide-gray-800">
                     {leaderboardData.funnyPeople.map((person, index) => (
                       <div 
                         key={person.name} 
-                        className={`flex items-center p-3 rounded-lg ${
-                          person.name.includes('(Siz)') 
-                            ? 'bg-yellow-100 dark:bg-yellow-900/30 border-2 border-yellow-500' 
-                            : 'bg-gray-50 dark:bg-gray-700'
-                        }`}
+                        className={`flex items-center p-4 ${person.name.includes('(Siz)') 
+                          ? 'bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 border-l-4 border-yellow-500' 
+                          : ''}`}
                       >
-                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center text-white font-bold">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 flex items-center justify-center text-white font-bold shadow-md">
                           {index + 1}
                         </div>
-                        <div className="ml-3 flex-1">
-                          <h4 className="font-medium">{person.name}</h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">{person.city}</p>
+                        <div className="ml-4 flex-1">
+                          <h4 className="font-medium text-gray-900 dark:text-gray-100">{person.name}</h4>
+                          <div className="flex items-center mt-1">
+                            <svg className="h-4 w-4 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 ml-1">{person.city}</p>
+                          </div>
                         </div>
                         <div className="flex-shrink-0">
-                          <span className="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 px-2 py-1 rounded-full text-sm font-medium">
-                            %{person.score} komiklik
-                          </span>
+                          <div className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-amber-100 to-yellow-100 dark:from-amber-900/30 dark:to-yellow-900/30">
+                            <svg className="h-4 w-4 text-yellow-600 dark:text-yellow-400 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span className="text-yellow-700 dark:text-yellow-300 font-medium">
+                              %{person.score}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     ))}
                   </div>
                   
-                  <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                    <h4 className="font-semibold text-blue-700 dark:text-blue-300 mb-2">Nasıl Çalışır?</h4>
+                  <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 m-4 rounded-xl">
+                    <div className="flex items-center mb-2">
+                      <svg className="h-5 w-5 text-blue-600 dark:text-blue-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <h4 className="font-semibold text-blue-700 dark:text-blue-300">Nasıl Çalışır?</h4>
+                    </div>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
                       Bu liste, kullanıcıların komiklik skorlarına göre oluşturulmuş eğlenceli bir sıralamadır. 
                       Sizin skorunuz analiz sonuçlarınıza göre belirlenir ve uygunsa listeye eklenir.
