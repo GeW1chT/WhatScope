@@ -7,13 +7,15 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { ChatAnalysis } from '@/types/chat';
 import { CHART_COLORS } from '@/lib/constants';
 import { motion } from 'framer-motion';
+import WordCloudChart from '@/components/Charts/WordCloudChart';
+import ActivityHeatmap from '@/components/Charts/ActivityHeatmap';
 
 interface PremiumFeaturesProps {
   analysis: ChatAnalysis;
 }
 
 const PremiumFeatures = ({ analysis }: PremiumFeaturesProps) => {
-  const [activeTab, setActiveTab] = useState<'wordCloud' | 'activeDays' | 'mediaPatterns' | 'topics' | 'customRange'>('wordCloud');
+  const [activeTab, setActiveTab] = useState<'wordCloud' | 'activeDays' | 'activityHeatmap' | 'mediaPatterns' | 'topics' | 'customRange'>('wordCloud');
   const [customStartDate, setCustomStartDate] = useState<string>('');
   const [customEndDate, setCustomEndDate] = useState<string>('');
   const [customAnalysis, setCustomAnalysis] = useState<ChatAnalysis | null>(null);
@@ -76,6 +78,26 @@ const PremiumFeatures = ({ analysis }: PremiumFeaturesProps) => {
     name: topic.topic,
     frequency: topic.frequency
   }));
+
+  // Prepare data for activity heatmap
+  const activityHeatmapData = analysis.messages.map(message => {
+    const date = new Date(message.timestamp);
+    return {
+      date: format(date, 'yyyy-MM-dd'),
+      hour: date.getHours(),
+      count: 1
+    };
+  }).reduce((acc, item) => {
+    const key = `${item.date}-${item.hour}`;
+    if (!acc[key]) {
+      acc[key] = { ...item };
+    } else {
+      acc[key].count += item.count;
+    }
+    return acc;
+  }, {} as Record<string, { date: string; hour: number; count: number }>);
+
+  const heatmapData = Object.values(activityHeatmapData);
   
   // Handle custom date range analysis
   const handleCustomAnalysis = () => {
@@ -143,6 +165,17 @@ const PremiumFeatures = ({ analysis }: PremiumFeaturesProps) => {
           </button>
           
           <button
+            onClick={() => setActiveTab('activityHeatmap')}
+            className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-all duration-300 ${
+              activeTab === 'activityHeatmap'
+                ? 'text-white border-b-2 border-cyan-400 bg-cyan-500/10'
+                : 'text-white/70 hover:text-white hover:bg-white/10'
+            }`}
+          >
+            Aktivite Isı Haritası
+          </button>
+          
+          <button
             onClick={() => setActiveTab('mediaPatterns')}
             className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-all duration-300 ${
               activeTab === 'mediaPatterns'
@@ -187,30 +220,22 @@ const PremiumFeatures = ({ analysis }: PremiumFeaturesProps) => {
               En Sık Kullanılan Kelimeler
             </h4>
             
-            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6 min-h-[400px] flex flex-wrap items-center justify-center gap-3">
+            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-4 min-h-[600px]">
               {wordCloudData.length > 0 ? (
-                wordCloudData.map((word, index) => (
-                  <motion.span
-                    key={index}
-                    className="inline-block px-4 py-2 rounded-full backdrop-blur-sm bg-white/10 border border-white/20"
-                    style={{
-                      fontSize: `${Math.max(14, Math.min(36, word.value * 2))}px`,
-                      backgroundColor: CHART_COLORS.primary[index % CHART_COLORS.primary.length] + '20',
-                      color: CHART_COLORS.primary[index % CHART_COLORS.primary.length],
-                      fontWeight: word.value > 10 ? 'bold' : 'normal'
-                    }}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.3, delay: 0.02 * index }}
-                    whileHover={{ scale: 1.1, y: -5 }}
-                  >
-                    {word.text} ({word.value})
-                  </motion.span>
-                ))
+                <WordCloudChart 
+                  data={wordCloudData}
+                  width={1000}
+                  height={550}
+                  backgroundColor="transparent"
+                  maxFontSize={80}
+                  minFontSize={16}
+                />
               ) : (
-                <p className="text-white/70">
-                  Kelime verisi bulunamadı.
-                </p>
+                <div className="flex items-center justify-center h-full">
+                  <p className="text-white/70">
+                    Kelime verisi bulunamadı.
+                  </p>
+                </div>
               )}
             </div>
           </motion.div>
@@ -263,6 +288,35 @@ const PremiumFeatures = ({ analysis }: PremiumFeaturesProps) => {
                 <div className="flex items-center justify-center h-full">
                   <p className="text-white/70">
                     Aktif gün verisi bulunamadı.
+                  </p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+        
+        {/* Activity Heatmap Tab */}
+        {activeTab === 'activityHeatmap' && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <h4 className="text-2xl font-bold text-white mb-6">
+              Aktivite Isı Haritası
+            </h4>
+            
+            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6 min-h-[600px]">
+              {heatmapData.length > 0 ? (
+                <ActivityHeatmap 
+                  data={heatmapData}
+                  width={900}
+                  height={500}
+                />
+              ) : (
+                <div className="flex items-center justify-center h-full">
+                  <p className="text-white/70">
+                    Aktivite verisi bulunamadı.
                   </p>
                 </div>
               )}
