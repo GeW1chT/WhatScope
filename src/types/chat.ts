@@ -140,6 +140,11 @@ export interface RelationshipAnalysis {
     emojiArtistTitle: string; // Person using most diverse emojis
     patienceTestTitle: string; // Person with fastest responses
     nightBomberTitle: string; // Most active after midnight
+    seenDetectiveTitle: string; // Person who sees messages but responds late
+    capsLockKingTitle: string; // Person who uses most capital letters
+    questionMachineTitle: string; // Person who asks most questions
+    keyboardNinjaTitle: string; // Person who types fastest
+    monologMasterTitle: string; // Person who sends most consecutive messages
   };
 }
 

@@ -113,6 +113,7 @@ export const useAnalysis = (): AnalysisHookResult => {
         // Step 8: Relationship analysis (95% of progress)
         console.log('Starting relationship analysis...');
         const analysisWithRelationship = analyzeRelationship(messagesToAnalyze, analysisWithPremium);
+        console.log('Relationship analysis result:', analysisWithRelationship.relationshipAnalysis);
         setProgress(95);
         await new Promise(resolve => setTimeout(resolve, 0));
 

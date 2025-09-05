@@ -84,6 +84,11 @@ export interface RelationshipAnalysis {
     emojiArtistTitle: string; // Person using most diverse emojis
     patienceTestTitle: string; // Person with fastest responses
     nightBomberTitle: string; // Most active after midnight
+    keyboardNinjaTitle: string; // Fastest typer (message length/time ratio)
+    monologMasterTitle: string; // Most consecutive messages
+    seenDetectiveTitle: string; // Slowest responder after being seen
+    capsLockKingTitle: string; // Most uppercase usage
+    questionMachineTitle: string; // Most question marks used
   };
 }
 
@@ -151,6 +156,11 @@ export const analyzeRelationship = (messages: WhatsAppMessage[], analysis: ChatA
       emojiArtistTitle: '',
       patienceTestTitle: '',
       nightBomberTitle: '',
+      keyboardNinjaTitle: '',
+      monologMasterTitle: '',
+      seenDetectiveTitle: '',
+      capsLockKingTitle: '',
+      questionMachineTitle: '',
     },
   };
 
@@ -529,6 +539,109 @@ export const analyzeRelationship = (messages: WhatsAppMessage[], analysis: ChatA
     if (nightScore > maxNightScore) {
       maxNightScore = nightScore;
       relationshipAnalysis.funnyTitles.nightBomberTitle = participant;
+    }
+  });
+
+  // Calculate new funny titles
+  // Keyboard Ninja - fastest typer (message length per minute)
+  let maxTypingSpeed = -1;
+  const typingSpeeds: Record<string, number> = {};
+  participants.forEach(participant => {
+    const userMessages = messages.filter(msg => msg.sender === participant && msg.content.trim().length > 0);
+    let totalChars = 0;
+    let totalTimeSpent = 0;
+    
+    for (let i = 0; i < userMessages.length - 1; i++) {
+      const currentMsg = userMessages[i];
+      const nextMsg = userMessages[i + 1];
+      const timeDiff = (nextMsg.timestamp.getTime() - currentMsg.timestamp.getTime()) / (1000 * 60); // minutes
+      
+      if (timeDiff > 0 && timeDiff < 30) { // Only consider reasonable typing times
+        totalChars += currentMsg.content.length;
+        totalTimeSpent += timeDiff;
+      }
+    }
+    
+    const typingSpeed = totalTimeSpent > 0 ? totalChars / totalTimeSpent : 0;
+    typingSpeeds[participant] = typingSpeed;
+    
+    if (typingSpeed > maxTypingSpeed) {
+      maxTypingSpeed = typingSpeed;
+      relationshipAnalysis.funnyTitles.keyboardNinjaTitle = participant;
+    }
+  });
+
+  // Monolog Master - most consecutive messages
+  let maxConsecutive = 0;
+  const consecutiveCounts: Record<string, number> = {};
+  participants.forEach(participant => {
+    consecutiveCounts[participant] = 0;
+  });
+  
+  let currentSender = '';
+  let currentCount = 0;
+  
+  messages.forEach(msg => {
+    if (msg.sender === currentSender) {
+      currentCount++;
+    } else {
+      if (currentSender && currentCount > consecutiveCounts[currentSender]) {
+        consecutiveCounts[currentSender] = currentCount;
+      }
+      currentSender = msg.sender;
+      currentCount = 1;
+    }
+  });
+  
+  // Check last sequence
+  if (currentSender && currentCount > consecutiveCounts[currentSender]) {
+    consecutiveCounts[currentSender] = currentCount;
+  }
+  
+  participants.forEach(participant => {
+    if (consecutiveCounts[participant] > maxConsecutive) {
+      maxConsecutive = consecutiveCounts[participant];
+      relationshipAnalysis.funnyTitles.monologMasterTitle = participant;
+    }
+  });
+
+  // Seen Detective - slowest responder (use existing slowResponder data)
+  relationshipAnalysis.funnyTitles.seenDetectiveTitle = relationshipAnalysis.funnyStats.slowResponder.person;
+
+  // Caps Lock King - most uppercase usage
+  let maxUppercaseRatio = -1;
+  participants.forEach(participant => {
+    const userMessages = messages.filter(msg => msg.sender === participant);
+    let totalChars = 0;
+    let uppercaseChars = 0;
+    
+    userMessages.forEach(msg => {
+      const content = msg.content;
+      totalChars += content.length;
+      uppercaseChars += (content.match(/[A-ZÇĞIİÖŞÜ]/g) || []).length;
+    });
+    
+    const uppercaseRatio = totalChars > 0 ? uppercaseChars / totalChars : 0;
+    
+    if (uppercaseRatio > maxUppercaseRatio) {
+      maxUppercaseRatio = uppercaseRatio;
+      relationshipAnalysis.funnyTitles.capsLockKingTitle = participant;
+    }
+  });
+
+  // Question Machine - most question marks used
+  let maxQuestionMarks = -1;
+  participants.forEach(participant => {
+    const userMessages = messages.filter(msg => msg.sender === participant);
+    let questionMarkCount = 0;
+    
+    userMessages.forEach(msg => {
+      questionMarkCount += (msg.content.match(/\?/g) || []).length;
+    });
+    
+    if (questionMarkCount > maxQuestionMarks) {
+      maxQuestionMarks = questionMarkCount;
+      relationshipAnalysis.funnyTitles.questionMachineTitle = participant;
     }
   });
   
