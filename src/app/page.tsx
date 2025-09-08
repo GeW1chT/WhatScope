@@ -50,6 +50,27 @@ export default function Home() {
 
   return (
     <div className="min-h-screen overflow-hidden relative">
+      {/* SEO Schema Markup */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "WhatsScope",
+            "description": "WhatsApp sohbet analizi ve konuşma istatistikleri aracı",
+            "url": "https://whatsscope.com",
+            "applicationCategory": "UtilityApplication",
+            "operatingSystem": "Web Browser",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "TRY"
+            }
+          })
+        }}
+      />
+
       {/* Revolutionary Animated Background */}
       <div className="fixed inset-0 bg-gradient-to-br from-slate-900 via-purple-900/80 to-indigo-900">
         {/* Floating Mesh Grid */}
@@ -102,6 +123,29 @@ export default function Home() {
             </p>
           </div>
         </header>
+
+        {/* SEO Content Section */}
+        <section className="mb-16 backdrop-blur-sm bg-white/5 border border-white/10 rounded-3xl p-8 shadow-2xl">
+          <h2 className="text-3xl font-bold text-transparent bg-gradient-to-r from-cyan-300 to-purple-300 bg-clip-text mb-6 text-center">
+            WhatsApp Sohbet Analizi Nasıl Çalışır?
+          </h2>
+          <div className="grid md:grid-cols-2 gap-8 text-white/80">
+            <div>
+              <h3 className="text-xl font-semibold text-cyan-300 mb-4">Konuşma İstatistiklerinizi Keşfedin</h3>
+              <p className="leading-relaxed">
+                WhatsApp mesaj analizi ile sohbetlerinizin gizli yönlerini ortaya çıkarın. Mesaj sayıları, emoji kullanımı, 
+                aktif saatler ve çok daha fazlasını detaylı grafiklerle görselleştirin.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold text-purple-300 mb-4">Güvenli WhatsApp Mesaj Analizi</h3>
+              <p className="leading-relaxed">
+                Tüm WhatsApp konuşma istatistikleri tamamen gizli ve güvenli bir şekilde, sadece tarayıcınızda işlenir. 
+                Verileriniz hiçbir zaman sunuculara gönderilmez.
+              </p>
+            </div>
+          </div>
+        </section>
         
         {/* Next-Gen Live Stats with Glassmorphism */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
@@ -253,6 +297,43 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        {/* FAQ Section for SEO */}
+        <section className="mt-16 mb-16 backdrop-blur-sm bg-white/5 border border-white/10 rounded-3xl p-8 shadow-2xl">
+          <h2 className="text-3xl font-bold text-transparent bg-gradient-to-r from-cyan-300 to-purple-300 bg-clip-text mb-8 text-center">
+            Sık Sorulan Sorular
+          </h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-xl font-semibold text-cyan-300 mb-3">WhatsApp sohbet analizi güvenli mi?</h3>
+                <p className="text-white/80 leading-relaxed">
+                  Evet, tamamen güvenli. Tüm WhatsApp konuşma verileri sadece tarayıcınızda işlenir, hiçbir veri sunuculara gönderilmez.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold text-purple-300 mb-3">Hangi dosya formatları destekleniyor?</h3>
+                <p className="text-white/80 leading-relaxed">
+                  WhatsApp'tan dışa aktarılan .txt formatındaki sohbet dosyaları desteklenmektedir.
+                </p>
+              </div>
+            </div>
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-xl font-semibold text-pink-300 mb-3">WhatsApp mesaj istatistikleri neleri gösterir?</h3>
+                <p className="text-white/80 leading-relaxed">
+                  Mesaj sayıları, emoji kullanımı, aktif saatler, en çok mesaj atan kişi ve 15+ farklı analiz kategorisi.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold text-orange-300 mb-3">Ücretsiz mi?</h3>
+                <p className="text-white/80 leading-relaxed">
+                  Evet, WhatsScope tamamen ücretsiz bir WhatsApp sohbet analizi aracıdır.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
         
         <SiteFooter />
       </div>

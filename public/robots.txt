@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Disallow admin or private areas (if any)
+# Disallow: /admin
+# Disallow: /private
+
+# Allow all bots to access important pages
+Allow: /
+Allow: /privacy-policy
+
+# Sitemap location
+Sitemap: https://www.whatsscope.com/sitemap.xml
+
+# Crawl delay (optional)
+Crawl-delay: 1
