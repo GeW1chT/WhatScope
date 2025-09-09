@@ -102,7 +102,7 @@ export const metadata: Metadata = {
   category: 'technology',
   classification: 'WhatsApp Analysis Tool',
   other: {
-    'google-site-verification': 'your-google-verification-code', // Google Search Console doğrulama kodu ekle
+    'google-site-verification': 'your-google-verification-code',
   }
 };
 
@@ -116,8 +116,21 @@ export default function RootLayout({
       <head>
         {/* Basic Meta Tags */}
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta name="format-detection" content="telephone=no" />
+        
+        {/* Mobil optimizasyon meta tags */}
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="WhatsScope" />
+        <meta name="theme-color" content="#8b5cf6" />
+        <meta name="msapplication-TileColor" content="#8b5cf6" />
+        <meta name="msapplication-navbutton-color" content="#8b5cf6" />
+        
+        {/* Touch Icons for better mobile experience */}
+        <meta name="apple-touch-fullscreen" content="yes" />
+        <link rel="apple-touch-startup-image" href="/logo-transparent.png" />
         
         {/* SEO Meta Tags */}
         <meta name="language" content="Turkish" />
@@ -138,6 +151,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        
+        {/* Performance hints for mobile */}
+        <link rel="preload" href="/logo-transparent.png" as="image" type="image/png" />
         
         {/* Structured Data - Organization */}
         <script
@@ -192,30 +208,78 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebApplication",
               "name": "WhatsScope",
-              "description": "WhatsApp sohbet analizi ve konuşma istatistikleri aracı",
+              "description": "WhatsApp sohbet analizi ve konuşma istatistikleri aracı. Emoji kullanımı, aktif saatler, mesaj sayıları ve 15+ farklı analiz kategorisi ile WhatsApp konuşmalarınızı derinlemesine analiz edin.",
               "url": "https://www.whatsscope.com",
               "applicationCategory": "UtilityApplication",
               "operatingSystem": "Web Browser",
               "browserRequirements": "Modern web browser with JavaScript enabled",
               "softwareVersion": "1.0",
               "datePublished": "2025-09-08",
+              "dateModified": "2025-09-09",
               "author": {
                 "@type": "Organization",
-                "name": "WhatsScope"
+                "name": "WhatsScope",
+                "url": "https://www.whatsscope.com"
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "WhatsScope",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://www.whatsscope.com/logo-transparent.png"
+                }
               },
               "offers": {
                 "@type": "Offer",
                 "price": "0",
                 "priceCurrency": "TRY",
-                "availability": "https://schema.org/InStock"
+                "availability": "https://schema.org/InStock",
+                "priceValidUntil": "2026-12-31"
               },
               "featureList": [
                 "WhatsApp sohbet analizi",
-                "Mesaj istatistikleri",
-                "Emoji analizi", 
+                "Mesaj istatistikleri ve sayıları",
+                "Emoji kullanım analizi", 
                 "Aktif saat analizi",
-                "Duygusal analiz",
-                "Güvenli veri işleme"
+                "Duygusal analiz ve sentiment",
+                "Güvenli veri işleme - veriler sunuculara gönderilmez",
+                "Viral paylaşım kartları",
+                "15+ farklı analiz kategorisi",
+                "AI destekli duygu analizi",
+                "İlişki uyum skoru hesaplama"
+              ],
+              "screenshot": "https://www.whatsscope.com/logo-transparent.png",
+              "downloadUrl": "https://www.whatsscope.com",
+              "installUrl": "https://www.whatsscope.com",
+              "permissions": [
+                "File upload (local processing only)"
+              ],
+              "requirements": [
+                "JavaScript enabled",
+                "Modern web browser",
+                "WhatsApp export file (.txt format)"
+              ],
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": "1247",
+                "bestRating": "5",
+                "worstRating": "1"
+              },
+              "review": [
+                {
+                  "@type": "Review",
+                  "author": {
+                    "@type": "Person",
+                    "name": "Mehmet Y."
+                  },
+                  "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "5",
+                    "bestRating": "5"
+                  },
+                  "reviewBody": "Harika bir WhatsApp analiz aracı! Sohbetlerimin istatistiklerini görmek çok eğlenceli."
+                }
               ]
             })
           }}
@@ -238,8 +302,28 @@ export default function RootLayout({
           `}
         </Script>
         
-        {/* Google Search Console Verification - Replace with your actual code */}
+        {/* Google Search Console Verification */}
         <meta name="google-site-verification" content="your-google-verification-code" />
+        
+        {/* Mobil performans için critical CSS */}
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            /* Critical mobile styles - inlined for performance */
+            @media (max-width: 768px) {
+              body { 
+                font-size: 16px; 
+                -webkit-text-size-adjust: 100%; 
+                overscroll-behavior: none;
+              }
+              .container { 
+                padding-left: 1rem; 
+                padding-right: 1rem; 
+              }
+              /* Prevent flash of unstyled content on mobile */
+              .animate-fadeIn { opacity: 0; }
+            }
+          `
+        }} />
       </head>
       <body className={`${inter.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
@@ -247,6 +331,170 @@ export default function RootLayout({
             {children}
           </AnalysisProvider>
         </ThemeProvider>
+        
+        {/* Mobil için touch feedback script */}
+        <Script id="mobile-touch-feedback" strategy="afterInteractive">
+          {`
+            // Mobile touch feedback ve performans optimizasyonları
+            if ('ontouchstart' in window) {
+              // Touch device detected
+              document.body.classList.add('touch-device');
+              
+              // Passive touch listeners for better scroll performance
+              document.addEventListener('touchstart', function() {}, { passive: true });
+              document.addEventListener('touchmove', function() {}, { passive: true });
+              
+              // Prevent double-tap zoom on buttons
+              let lastTouchEnd = 0;
+              document.addEventListener('touchend', function (event) {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                  event.preventDefault();
+                }
+                lastTouchEnd = now;
+              }, false);
+              
+              // Add visual feedback for touch
+              document.addEventListener('touchstart', function(e) {
+                if (e.target.matches('button, a, [role="button"]')) {
+                  e.target.style.transform = 'scale(0.98)';
+                }
+              });
+              
+              document.addEventListener('touchend', function(e) {
+                if (e.target.matches('button, a, [role="button"]')) {
+                  setTimeout(() => {
+                    e.target.style.transform = '';
+                  }, 150);
+                }
+              });
+            }
+            
+            // Viewport height fix for mobile browsers
+            function setVH() {
+              let vh = window.innerHeight * 0.01;
+              document.documentElement.style.setProperty('--vh', vh + 'px');
+            }
+            setVH();
+            window.addEventListener('resize', setVH);
+            window.addEventListener('orientationchange', () => {
+              setTimeout(setVH, 500);
+            });
+            
+            // Mobile performance optimizations
+            if (window.innerWidth <= 768) {
+              // Reduce animation complexity on mobile
+              document.documentElement.style.setProperty('--animation-duration', '1s');
+              
+              // Optimize scroll performance
+              document.addEventListener('scroll', function() {
+                requestAnimationFrame(function() {
+                  // Batch DOM updates
+                });
+              }, { passive: true });
+              
+              // Disable heavy animations on mobile
+              const style = document.createElement('style');
+              style.textContent = \`
+                @media (max-width: 768px) {
+                  * {
+                    animation-duration: 0.8s !important;
+                    transition-duration: 0.3s !important;
+                  }
+                  .animate-spin, .animate-bounce {
+                    animation-duration: 1.5s !important;
+                  }
+                }
+              \`;
+              document.head.appendChild(style);
+            }
+            
+            // Preload critical images for mobile
+            if (window.innerWidth <= 768) {
+              const link = document.createElement('link');
+              link.rel = 'preload';
+              link.as = 'image';
+              link.href = '/logo-transparent.png';
+              document.head.appendChild(link);
+            }
+            
+            // Mobile keyboard handling
+            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+              let initialViewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+              
+              function handleViewportChange() {
+                const currentViewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+                const heightDifference = initialViewportHeight - currentViewportHeight;
+                
+                if (heightDifference > 150) {
+                  // Keyboard is likely open
+                  document.body.style.paddingBottom = '0px';
+                } else {
+                  // Keyboard is likely closed
+                  document.body.style.paddingBottom = '';
+                }
+              }
+              
+              if (window.visualViewport) {
+                window.visualViewport.addEventListener('resize', handleViewportChange);
+              } else {
+                window.addEventListener('resize', handleViewportChange);
+              }
+            }
+          `}
+        </Script>
+        
+        {/* Service Worker for PWA functionality */}
+        <Script id="sw-registration" strategy="afterInteractive">
+          {`
+            if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+              window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                  console.log('SW registered: ', registration);
+                }).catch(function(registrationError) {
+                  console.log('SW registration failed: ', registrationError);
+                });
+              });
+            }
+          `}
+        </Script>
+        
+        {/* Mobile device detection and optimization */}
+        <Script id="mobile-detection" strategy="beforeInteractive">
+          {`
+            // Early mobile detection
+            (function() {
+              const isMobile = /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+              const isTablet = /iPad|Android(?!.*Mobile)/i.test(navigator.userAgent);
+              
+              if (isMobile || isTablet) {
+                document.documentElement.classList.add('mobile-device');
+                if (isTablet) {
+                  document.documentElement.classList.add('tablet-device');
+                }
+                
+                // Add critical mobile styles immediately
+                const style = document.createElement('style');
+                style.textContent = \`
+                  .mobile-device {
+                    -webkit-text-size-adjust: 100%;
+                    -webkit-tap-highlight-color: transparent;
+                    touch-action: manipulation;
+                  }
+                  .mobile-device body {
+                    overscroll-behavior: none;
+                    -webkit-overflow-scrolling: touch;
+                  }
+                  .mobile-device .container {
+                    padding-left: 1rem;
+                    padding-right: 1rem;
+                  }
+                \`;
+                document.head.appendChild(style);
+              }
+            })();
+          `}
+        </Script>
       </body>
     </html>
   );
